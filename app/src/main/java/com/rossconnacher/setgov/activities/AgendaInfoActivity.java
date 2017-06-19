@@ -31,7 +31,7 @@ public class AgendaInfoActivity extends AppCompatActivity implements View.OnClic
         ButterKnife.inject(this);
 
         mAgenda  = (Agenda) getIntent().getSerializableExtra("Agenda");
-        mEvent  = (Event) getIntent().getSerializableExtra("Event");
+        mEvent  = mAgenda.getEvent();
     }
 
     @Override

@@ -26,13 +26,11 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
     private Context mContext;
     private List<Agenda> mAgendas;
     private RecyclerView mRecyclerView;
-    private Event mEvent;
 
-    public AgendaAdapter(Event event, RecyclerView recyclerView, Context context, ArrayList<Agenda> agendas){
+    public AgendaAdapter(RecyclerView recyclerView, Context context, ArrayList<Agenda> agendas){
         this.mRecyclerView = recyclerView;
         this.mContext = context;
         this.mAgendas = agendas;
-        this.mEvent = event;
     }
 
     @Override
@@ -63,7 +61,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
         Agenda agenda = mAgendas.get(itemPosition);
         Intent intent = new Intent(mContext, AgendaInfoActivity.class);
         intent.putExtra("Agenda",agenda);
-        intent.putExtra("Event", mEvent);
         mContext.startActivity(intent);
     }
 }

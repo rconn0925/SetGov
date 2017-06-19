@@ -27,6 +27,43 @@
                     android:id="@+id/eventInfoImage"
                     android:adjustViewBounds="true"/>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="13dp"
+                    android:id="@+id/youtubeFragment"
+                    android:layout_centerHorizontal="true">
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:id="@+id/centerLayout">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/eventInfoCircleImage"
+                        android:paddingBottom="8dp"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoAttendButton"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:text="Attend"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/rounded_border_blue"
+                        android:gravity="center"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout

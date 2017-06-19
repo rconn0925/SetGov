@@ -11,15 +11,17 @@ public class Agenda implements Serializable {
     private String title;
     private String category;
     private String comments;
-    private City city;
+    private Event event;
 
-    public Agenda(String title, String category,String comments, City city){
+    public Agenda(String title, String category,String comments, Event event){
         this.title = title;
         this.category = category;
         this.comments = comments;
-        this.city = city;
+        this.event = event;
     }
-
+    public Event getEvent(){
+        return event;
+    }
     public String getTitle(){
         return title;
     }
