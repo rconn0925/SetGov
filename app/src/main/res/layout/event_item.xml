@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:id="@+id/eventImage" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/eventImage"
+        android:id="@+id/firstLine"
+        android:background="@color/white_overlay">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventDate"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:paddingRight="4dp"
+            android:paddingEnd="4dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/secondLine"
+        android:layout_below="@id/firstLine"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventType"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventTag2"
+            android:background="@drawable/rounded_border_red"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:padding="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventTag1"
+            android:background="@drawable/rounded_border_red"
+            android:layout_toLeftOf="@id/eventTag2"
+            android:layout_toStartOf="@id/eventTag2"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:padding="4dp"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventAttendeesTitle"
+        android:text="Attending | Interested"
+        android:textSize="12sp"
+        android:layout_below="@+id/secondLine"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/white_overlay"
+        android:paddingLeft="4dp"
+        android:paddingStart="4dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/eventAttendees"
+        android:layout_below="@id/eventAttendeesTitle">
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</RelativeLayout>
