@@ -1,10 +1,10 @@
 package com.rossconnacher.setgov.adapters;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rossconnacher.setgov.R;
-import com.rossconnacher.setgov.activities.EventInfoActivity;
-import com.rossconnacher.setgov.models.City;
+import com.rossconnacher.setgov.fragments.EventInfoFragment;
 import com.rossconnacher.setgov.models.Event;
 import com.rossconnacher.setgov.models.Person;
 import com.rossconnacher.setgov.viewholders.EventViewHolder;
@@ -56,7 +55,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         if(event.getTags().length>1){
             holder.eventTag2.setText(event.getTags()[1]);
         }
-        holder.eventDate.setText(new DateFormatSymbols().getMonths()[event.getDate().getMonth()-1] + " "+ event.getDate().getDay());
+        holder.eventDate.setText(new DateFormatSymbols().getMonths()[event.getDate().getMonth()] + " "+ event.getDate().getDate());
        // holder.eventImage.setImageBitmap(event.getImage());
         ArrayList<Person> personList = event.getAttendees();
         holder.eventAttendees.setAdapter(new PersonAdapter(mContext,personList));
@@ -75,16 +74,10 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
     public void onClick(View v) {
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
         Event event = mEvents.get(itemPosition);
-        Intent intent = new Intent(mContext, EventInfoActivity.class);
-        //intent.putExtra("City",mCity);
-        /*
-        intent.putExtra("EventName",event.getName());
-        intent.putExtra("EventAddress",event.getAddress());
-        intent.putExtra("EventDate",event.getDate().toString());
-        intent.putExtra("EventAttendees",event.getAttendees());
-        intent.putExtra("EventImageResID",event.getImageResID());
-        */
-        intent.putExtra("Event",event);
-        mContext.startActivity(intent);
+
+        FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+        Fragment currentFragment = EventInfoFragment.newInstance(event);
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
+
     }
 }

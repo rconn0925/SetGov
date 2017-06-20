@@ -134,8 +134,9 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 
-            Intent intent = new Intent(this,CitiesActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
+            finishAffinity();
             /*
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);

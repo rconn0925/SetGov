@@ -1,16 +1,18 @@
 package com.rossconnacher.setgov.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.rossconnacher.setgov.R;
-import com.rossconnacher.setgov.activities.AgendaInfoActivity;
+import com.rossconnacher.setgov.fragments.AgendaInfoFragment;
 import com.rossconnacher.setgov.models.Agenda;
-import com.rossconnacher.setgov.models.Event;
 import com.rossconnacher.setgov.viewholders.AgendaViewHolder;
 
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
     public void onClick(View v) {
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
         Agenda agenda = mAgendas.get(itemPosition);
-        Intent intent = new Intent(mContext, AgendaInfoActivity.class);
-        intent.putExtra("Agenda",agenda);
-        mContext.startActivity(intent);
+        FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+        Fragment currentFragment = AgendaInfoFragment.newInstance(agenda);
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
     }
 }

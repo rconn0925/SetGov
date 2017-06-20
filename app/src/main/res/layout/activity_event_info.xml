@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.rossconnacher.setgov.activities.EventInfoActivity">
-
-    <include layout="@layout/app_bar_main" />
+    tools:context="com.rossconnacher.setgov.activities.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -137,7 +135,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:id="@+id/eventInfoAttendees">
                 </android.support.v7.widget.RecyclerView>
 

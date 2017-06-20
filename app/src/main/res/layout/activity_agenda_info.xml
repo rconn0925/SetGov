@@ -6,6 +6,5 @@
     android:layout_height="match_parent"
     tools:context="com.rossconnacher.setgov.activities.AgendaInfoActivity">
 
-    <include layout="@layout/app_bar_main" />
 
 </android.support.constraint.ConstraintLayout>

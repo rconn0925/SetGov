@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/app_bar_main"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/eventRecyclerView"
         android:layout_width="match_parent"
