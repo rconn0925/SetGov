@@ -1,6 +1,7 @@
 package com.rossconnacher.setgov.fragments;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.models.Agenda;
 import com.rossconnacher.setgov.models.Event;
+
+import org.w3c.dom.Text;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,6 +35,15 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
     private static final String ARG_PARAM1 = "agenda";
 
 
+
+    @InjectView(R.id.agendaEventImage)
+    public ImageView agendaEventImage;
+    @InjectView(R.id.agendaDiscussionTopic)
+    public TextView agendaDiscussionTopic;
+    @InjectView(R.id.agendaUpdate)
+    public TextView agendaUpdate;
+    @InjectView(R.id.agendaComments)
+    public TextView agendaComments;
 
     private Agenda mAgenda;
     private Event mEvent;
@@ -69,8 +81,12 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mEvent.getName());
-      //  backButton = (ImageView) getActivity().findViewById(R.id.backButton);
-       // backButton.setOnClickListener(this);
+
+        agendaComments.setText(mAgenda.getComments());
+        agendaEventImage.setImageResource(mEvent.getImageResID());
+        agendaDiscussionTopic.setText("Discussion Topic: "+mAgenda.getTitle());
+        agendaUpdate.setText(mAgenda.getCategory());
+
         return view;
     }
 

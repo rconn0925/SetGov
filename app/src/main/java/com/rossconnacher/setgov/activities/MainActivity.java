@@ -1,11 +1,14 @@
 package com.rossconnacher.setgov.activities;
 
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements
     @InjectView(R.id.backButton)
     public ImageView backButton;
 
-    Fragment previousFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = CitiesFragment.newInstance();
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.exit_to_right,R.anim.enter_from_left).replace(R.id.contentFrame, currentFragment).commit();
 
     }
 
@@ -49,9 +51,14 @@ public class MainActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-    public void setPreviousFrag(Fragment prevFrag){
-        previousFrag = prevFrag;
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
