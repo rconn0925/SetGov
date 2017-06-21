@@ -69,7 +69,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
 
         FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
         Fragment currentFragment = CityFragment.newInstance(city);
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
 
     }
 }

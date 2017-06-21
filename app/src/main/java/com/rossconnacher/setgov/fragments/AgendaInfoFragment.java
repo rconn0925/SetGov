@@ -69,8 +69,8 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mEvent.getName());
-        backButton = (ImageView) getActivity().findViewById(R.id.backButton);
-        backButton.setOnClickListener(this);
+      //  backButton = (ImageView) getActivity().findViewById(R.id.backButton);
+       // backButton.setOnClickListener(this);
         return view;
     }
 
@@ -100,11 +100,7 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==backButton.getId()){
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment currentFragment = EventInfoFragment.newInstance(mEvent);
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right).replace(R.id.contentFrame, currentFragment).commit();
-        }
+
     }
 
     /**

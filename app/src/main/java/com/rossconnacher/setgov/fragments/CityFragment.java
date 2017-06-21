@@ -84,8 +84,6 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mCity.toString());
-        backButton = (ImageView) getActivity().findViewById(R.id.backButton);
-        backButton.setOnClickListener(this);
       //  toolbarTitle.setText(mCity.toString());
         if(mCity.toString().equals("Boston, MA")){
             //add boston events
@@ -153,13 +151,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        
-        if(v.getId()==backButton.getId()){
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment currentFragment = new CitiesFragment();
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right).replace(R.id.contentFrame, currentFragment).commit();
-        }
     }
 
     /**

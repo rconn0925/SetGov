@@ -57,14 +57,14 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         if(v.getId()==backButton.getId()){
-            /*
-            FragmentManager fragmentManager = getFragmentManager();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 fragmentManager.popBackStack();
             } else {
                 super.onBackPressed();
             }
-            */
+
         }
     }
 }

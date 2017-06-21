@@ -63,6 +63,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
         Agenda agenda = mAgendas.get(itemPosition);
         FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
         Fragment currentFragment = AgendaInfoFragment.newInstance(agenda);
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
     }
 }

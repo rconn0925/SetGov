@@ -77,7 +77,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
 
         FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
         Fragment currentFragment = EventInfoFragment.newInstance(event);
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).replace(R.id.contentFrame, currentFragment).commit();
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
 
     }
 }

@@ -87,7 +87,6 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
 
 
     private OnFragmentInteractionListener mListener;
-    private ImageView backButton;
 
     public EventInfoFragment() {
         // Required empty public constructor
@@ -179,8 +178,6 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         eventInfoCircleImage.setImageResource(mEventImageResID);
         eventInfoAddress.setText(mEventAddress);
         eventInfoDate.setText(mEventDate);
-        backButton = (ImageView) getActivity().findViewById(R.id.backButton);
-        backButton.setOnClickListener(this);
         eventInfoAttendButton.setOnClickListener(this);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mEventName);
@@ -215,12 +212,8 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==backButton.getId()){
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment currentFragment = CityFragment.newInstance(mCity);
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left,R.anim.exit_to_right).replace(R.id.contentFrame, currentFragment).commit();
-        } else if (v.getId() == eventInfoAttendButton.getId()){
+       if (v.getId() == eventInfoAttendButton.getId()){
             //connect to live stream
             //alert dialog prompt
             eventInfoAttendButton.setText("Attending");
