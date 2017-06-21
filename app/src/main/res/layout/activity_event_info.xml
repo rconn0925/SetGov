@@ -23,7 +23,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/eventInfoImage"
-                    android:adjustViewBounds="true"/>
+                    android:adjustViewBounds="true"
+                    android:alpha=".75"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
