@@ -51,10 +51,12 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         final Event event = mEvents.get(position);
         holder.eventName.setText(event.getName());
         holder.eventType.setText(event.getType());
+        /*
         holder.eventTag1.setText(event.getTags()[0]);
         if(event.getTags().length>1){
             holder.eventTag2.setText(event.getTags()[1]);
         }
+        *
         holder.eventDate.setText(new DateFormatSymbols().getMonths()[event.getDate().getMonth()] + " "+ event.getDate().getDate());
        // holder.eventImage.setImageBitmap(event.getImage());
         ArrayList<Person> personList = event.getAttendees();
@@ -62,6 +64,10 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         holder.eventAttendees.setLayoutManager(layoutManager);
         holder.eventImage.setImageResource(event.getImageResID());
+        */
+        holder.eventDate.setText(event.getDateStr());
+        holder.eventTag1.setVisibility(View.GONE);
+        holder.eventTag2.setVisibility(View.GONE);
 
     }
 

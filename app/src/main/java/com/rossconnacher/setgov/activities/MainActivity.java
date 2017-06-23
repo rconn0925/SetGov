@@ -9,14 +9,25 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.rossconnacher.setgov.EventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.AgendaInfoFragment;
 import com.rossconnacher.setgov.fragments.CitiesFragment;
 import com.rossconnacher.setgov.fragments.CityFragment;
 import com.rossconnacher.setgov.fragments.EventInfoFragment;
+import com.rossconnacher.setgov.models.Event;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements
     @InjectView(R.id.backButton)
     public ImageView backButton;
 
+    ArrayList<Event> mEvents = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +54,25 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
 
+        scrapeBostonHTML();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = CitiesFragment.newInstance();
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.exit_to_right,R.anim.enter_from_left).replace(R.id.contentFrame, currentFragment).commit();
 
     }
+
+    public void scrapeBostonHTML(){
+        try {
+            mEvents = new EventScraper().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

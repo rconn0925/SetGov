@@ -21,6 +21,7 @@ public class Event implements Serializable{
     private ArrayList<Person> attendees;
     private int imageResID;
     private City city;
+    private String dateStr;
 
 
     public Event(String name,String type, City city, Date date, String address, String[] tags,ArrayList<Person> attendees,int resID){
@@ -33,6 +34,15 @@ public class Event implements Serializable{
         this.imageResID = resID;
         this.city = city;
     }
+    public Event(String name,String type, City city, String date, String address){
+        this.name = name;
+        this.type = type;
+        this.dateStr = date;
+        this.address = address;
+        this.city = city;
+    }
+
+
     public int getImageResID(){
         return imageResID;
     }
@@ -47,6 +57,9 @@ public class Event implements Serializable{
     }
     public Date getDate(){
         return date;
+    }
+    public String getDateStr(){
+        return dateStr;
     }
     public String getAddress(){
         return address;

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rossconnacher.setgov.EventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.SimpleDividerItemDecoration;
 import com.rossconnacher.setgov.adapters.EventAdapter;
@@ -24,6 +25,7 @@ import com.rossconnacher.setgov.models.Person;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -87,6 +89,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
       //  toolbarTitle.setText(mCity.toString());
         if(mCity.toString().equals("Boston, MA")){
             //add boston events
+            /*
             ArrayList<Person> attendees = new ArrayList<>();
             Resources resources = this.getResources();
             final int personResourceId = resources.getIdentifier("kappaross", "drawable",
@@ -103,11 +106,15 @@ public class CityFragment extends Fragment implements View.OnClickListener{
             attendees.add(person4);
             attendees.add(person5);
 
+
             final int eventImageResourceId = resources.getIdentifier("firestation", "drawable",
                     getActivity().getPackageName());
             mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
             mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
             mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
+            */
+            scrapeBostonHTML();
+
 
         } else if(mCity.toString().equals("Fort Lauderdale, FL")){
             //add fort lauderdale events
@@ -116,13 +123,24 @@ public class CityFragment extends Fragment implements View.OnClickListener{
             //add new york events
 
         }
-        mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
-        eventView.setLayoutManager(mEventLayoutManager);
-        eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
-        eventView.setAdapter(mEventAdapter);
 
         return view;
+    }
+
+    public void scrapeBostonHTML(){
+        try {
+            mEvents = new EventScraper().execute().get();
+            mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
+            eventView.setLayoutManager(mEventLayoutManager);
+            eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+            mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
+            eventView.setAdapter(mEventAdapter);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
