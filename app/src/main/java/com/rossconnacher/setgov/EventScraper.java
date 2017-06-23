@@ -70,13 +70,13 @@ public class EventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
                     // Log.d("MAINactivity", when.get(k).toString());
                     if(k%3==2){
 
-                        String dateString = when.get(k).toString().split(">")[1].split("<")[0];
+                        String dateString = when.get(k).toString().split(">")[1].split("<")[0].replace("\n","");
                         Log.d("MAINactivity", dateString);
                         whens.add(dateString);
                     }
                 }
                 for(int l = 0; l <where.size();l++ ){
-                    String address = where.get(l).toString().split(">")[1].split("<")[0];
+                    String address = where.get(l).toString().split(">")[1].split("<")[0].replace("\n","");
                     Log.d("MAINactivity", address);
                     wheres.add(address);
                 }

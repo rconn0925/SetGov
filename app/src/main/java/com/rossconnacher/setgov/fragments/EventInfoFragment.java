@@ -110,9 +110,10 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
             mEventName = mEvent.getName();
             mEventAddress = mEvent.getAddress();
             DateFormat dateFormat = new SimpleDateFormat("M/d/yy  h:mm a");
-            mEventDate = dateFormat.format(mEvent.getDate());
-            mEventImageResID = mEvent.getImageResID();
-            mEventAttendees = mEvent.getAttendees();
+            //mEventDate = dateFormat.format(mEvent.getDate());
+            mEventDate = mEvent.getDateStr();
+         //   mEventImageResID = mEvent.getImageResID();
+          //  mEventAttendees = mEvent.getAttendees();
             mAgendas = new ArrayList<Agenda>();
 
         }
@@ -174,15 +175,15 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_event_info, container, false);
         ButterKnife.inject(this,view);
-        eventInfoImage.setImageResource(mEventImageResID);
-        eventInfoCircleImage.setImageResource(mEventImageResID);
+       // eventInfoImage.setImageResource(mEventImageResID);
+        //eventInfoCircleImage.setImageResource(mEventImageResID);
         eventInfoAddress.setText(mEventAddress);
         eventInfoDate.setText(mEventDate);
         eventInfoAttendButton.setOnClickListener(this);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mEventName);
         populateAgenda();
-        populateAttendees();
+       // populateAttendees();
         return view;
     }
 
