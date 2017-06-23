@@ -83,9 +83,27 @@ public class EventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
             }
 
             for(int m = 0; m<endpoints.size();m++){
+
+                /*
+                Document agendaDoc = null;
+                try {
+                    String url = "https://www.boston.gov/"+endpoints.get(m);
+                    agendaDoc = Jsoup.connect(url).get();
+                    //       Log.d("MAINactivity", doc.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Elements agendas = agendaDoc.select("div[class=body]");
+                Elements agendaTitles = agendas.select("strong").after("li").after("ol");
+
+                Log.d("TAG",agendaTitles.toString());
+                */
+
                 City boston = new City("Boston","MA");
                 Event event = new Event(titles.get(m),categories.get(m),boston,whens.get(m),wheres.get(m));
                 mEvents.add(event);
+
+
 
             }
 

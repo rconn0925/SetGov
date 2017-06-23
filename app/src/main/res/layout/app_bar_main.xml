@@ -35,7 +35,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:clickable="true"
-                    android:onClick="onClick"/>
+                    android:onClick="onClick" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -43,7 +43,9 @@
                     android:layout_centerInParent="true"
                     android:id="@+id/toolbarTitle"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_margin="36dp"
+                    android:gravity="center"/>
 
             </RelativeLayout>
 

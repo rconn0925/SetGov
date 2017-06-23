@@ -24,6 +24,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/eventInfoImage"
                     android:adjustViewBounds="true"
+                    android:src="@drawable/firestation"
                     android:alpha=".75"/>
 
                 <FrameLayout
@@ -48,6 +49,7 @@
                         android:id="@+id/eventInfoCircleImage"
                         android:paddingBottom="8dp"
                         app:civ_border_width="2dp"
+                        android:src="@drawable/firestation"
                         app:civ_border_color="@color/colorPrimary"/>
 
                     <TextView
