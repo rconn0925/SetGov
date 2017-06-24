@@ -1,4 +1,4 @@
-package com.rossconnacher.setgov;
+package com.rossconnacher.setgov.eventscrapers;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,10 +22,10 @@ import java.util.ArrayList;
  * Created by Ross on 6/23/2017.
  */
 
-public class ExcelEventScraper extends AsyncTask<Context,Void,ArrayList<Event>> {
+public class ForLauderdaleEventScraper extends AsyncTask<Context,Void,ArrayList<Event>> {
 
     private Context mContext;
-    public ExcelEventScraper(Context context) {
+    public ForLauderdaleEventScraper(Context context) {
         mContext = context;
     }
 

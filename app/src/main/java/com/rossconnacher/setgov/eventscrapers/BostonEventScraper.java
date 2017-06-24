@@ -1,4 +1,4 @@
-package com.rossconnacher.setgov;
+package com.rossconnacher.setgov.eventscrapers;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by Ross on 6/22/2017.
  */
 
-public class EventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
+public class BostonEventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
 
     @Override
     protected ArrayList<Event> doInBackground(String... urls) {

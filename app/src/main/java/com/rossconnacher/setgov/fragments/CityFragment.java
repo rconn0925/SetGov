@@ -1,11 +1,9 @@
 package com.rossconnacher.setgov.fragments;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,17 +13,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rossconnacher.setgov.EventScraper;
-import com.rossconnacher.setgov.ExcelEventScraper;
+import com.rossconnacher.setgov.eventscrapers.BostonEventScraper;
+import com.rossconnacher.setgov.eventscrapers.ForLauderdaleEventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.SimpleDividerItemDecoration;
 import com.rossconnacher.setgov.adapters.EventAdapter;
+import com.rossconnacher.setgov.eventscrapers.NewYorkEventScraper;
 import com.rossconnacher.setgov.models.City;
 import com.rossconnacher.setgov.models.Event;
-import com.rossconnacher.setgov.models.Person;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
@@ -114,24 +111,24 @@ public class CityFragment extends Fragment implements View.OnClickListener{
             mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
             mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
             */
-            scrapeBostonHTML();
+            scrapeBostonEvents();
 
 
         } else if(mCity.toString().equals("Fort Lauderdale, FL")){
             //add fort lauderdale events
-            scrapeFortLauderdaleXLS();
+            scrapeFortLauderdaleEvents();
 
         } else if(mCity.toString().equals("New York, NY")){
             //add new york events
+            scrapeNewYorkEvents();
 
         }
 
         return view;
     }
-
-    private void scrapeFortLauderdaleXLS() {
+    private void scrapeNewYorkEvents() {
         try {
-            mEvents = new ExcelEventScraper(getActivity()).execute().get();
+            mEvents = new NewYorkEventScraper(getActivity()).execute().get();
             mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
             eventView.setLayoutManager(mEventLayoutManager);
             eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -144,9 +141,25 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void scrapeBostonHTML(){
+
+    private void scrapeFortLauderdaleEvents() {
         try {
-            mEvents = new EventScraper().execute().get();
+            mEvents = new ForLauderdaleEventScraper(getActivity()).execute().get();
+            mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
+            eventView.setLayoutManager(mEventLayoutManager);
+            eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+            mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
+            eventView.setAdapter(mEventAdapter);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void scrapeBostonEvents(){
+        try {
+            mEvents = new BostonEventScraper().execute().get();
             mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
             eventView.setLayoutManager(mEventLayoutManager);
             eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));

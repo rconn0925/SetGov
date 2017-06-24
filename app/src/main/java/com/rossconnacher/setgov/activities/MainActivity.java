@@ -1,21 +1,16 @@
 package com.rossconnacher.setgov.activities;
 
-import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
-import android.transition.Transition;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.rossconnacher.setgov.EventScraper;
-import com.rossconnacher.setgov.ExcelEventScraper;
+import com.rossconnacher.setgov.eventscrapers.BostonEventScraper;
+import com.rossconnacher.setgov.eventscrapers.ForLauderdaleEventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.AgendaInfoFragment;
 import com.rossconnacher.setgov.fragments.CitiesFragment;
@@ -23,11 +18,6 @@ import com.rossconnacher.setgov.fragments.CityFragment;
 import com.rossconnacher.setgov.fragments.EventInfoFragment;
 import com.rossconnacher.setgov.models.Event;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -67,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void scrapeBostonHTML(){
         try {
-            mEvents = new EventScraper().execute().get();
+            mEvents = new BostonEventScraper().execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -76,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
     }
     public void scrapeFortLauderdaleExcel(){
         try {
-            mEvents = new ExcelEventScraper(this).execute().get();
+            mEvents = new ForLauderdaleEventScraper(this).execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
