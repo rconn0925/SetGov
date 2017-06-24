@@ -1,5 +1,6 @@
 package com.rossconnacher.setgov.activities;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.rossconnacher.setgov.EventScraper;
+import com.rossconnacher.setgov.ExcelEventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.AgendaInfoFragment;
 import com.rossconnacher.setgov.fragments.CitiesFragment;
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
 
-        scrapeBostonHTML();
+        //scrapeBostonHTML();
+        scrapeFortLauderdaleExcel();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = CitiesFragment.newInstance();
@@ -70,7 +73,15 @@ public class MainActivity extends AppCompatActivity implements
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
+    }
+    public void scrapeFortLauderdaleExcel(){
+        try {
+            mEvents = new ExcelEventScraper(this).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
 

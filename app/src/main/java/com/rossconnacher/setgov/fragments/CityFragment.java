@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rossconnacher.setgov.EventScraper;
+import com.rossconnacher.setgov.ExcelEventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.SimpleDividerItemDecoration;
 import com.rossconnacher.setgov.adapters.EventAdapter;
@@ -118,6 +119,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
 
         } else if(mCity.toString().equals("Fort Lauderdale, FL")){
             //add fort lauderdale events
+            scrapeFortLauderdaleXLS();
 
         } else if(mCity.toString().equals("New York, NY")){
             //add new york events
@@ -125,6 +127,21 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         }
 
         return view;
+    }
+
+    private void scrapeFortLauderdaleXLS() {
+        try {
+            mEvents = new ExcelEventScraper(getActivity()).execute().get();
+            mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
+            eventView.setLayoutManager(mEventLayoutManager);
+            eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+            mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
+            eventView.setAdapter(mEventAdapter);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void scrapeBostonHTML(){
