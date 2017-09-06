@@ -93,7 +93,6 @@ public class NewYorkEventScraper extends AsyncTask<Context,Void,ArrayList<Event>
                 String eventType = eventName.substring(eventName.lastIndexOf(" ")+1);
                 Event event = new Event(eventName,eventType,mCity,eventDate.get(i)+" "+ eventTime.get(i),eventLocation.get(i));
                 mEvents.add(event);
-
             }
 
 

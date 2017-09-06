@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         //scrapeBostonHTML();
-        scrapeFortLauderdaleExcel();
+        //scrapeFortLauderdaleExcel();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = CitiesFragment.newInstance();

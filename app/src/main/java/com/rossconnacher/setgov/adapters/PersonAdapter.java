@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rossconnacher.setgov.R;
-import com.rossconnacher.setgov.models.Person;
+import com.rossconnacher.setgov.models.User;
 import com.rossconnacher.setgov.viewholders.PersonViewHolder;
 
 import java.util.ArrayList;
@@ -21,12 +21,12 @@ public class PersonAdapter  extends RecyclerView.Adapter<PersonViewHolder>{
 
     private static final String TAG = "PersonAdapter";
     private Context mContext;
-    private List<Person> mPersons;
+    private List<User> mUsers;
    // private RecyclerView mRecyclerView;
 
-    public PersonAdapter(Context context, ArrayList<Person> persons){
+    public PersonAdapter(Context context, ArrayList<User> users){
         this.mContext = context;
-        this.mPersons = persons;
+        this.mUsers = users;
     }
 
     @Override
@@ -38,12 +38,12 @@ public class PersonAdapter  extends RecyclerView.Adapter<PersonViewHolder>{
 
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int position) {
-        final Person person = mPersons.get(position);
-        holder.personImageView.setImageResource(person.getImageResID());
+        final User user = mUsers.get(position);
+        holder.personImageView.setImageResource(user.getImageResID());
     }
 
     @Override
     public int getItemCount() {
-        return mPersons.size();
+        return mUsers.size();
     }
 }

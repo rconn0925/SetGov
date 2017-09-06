@@ -88,16 +88,16 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         if(mCity.toString().equals("Boston, MA")){
             //add boston events
             /*
-            ArrayList<Person> attendees = new ArrayList<>();
+            ArrayList<User> attendees = new ArrayList<>();
             Resources resources = this.getResources();
             final int personResourceId = resources.getIdentifier("kappaross", "drawable",
                     getActivity().getPackageName());
 
-            Person person1 = new Person("KappaRoss",personResourceId);
-            Person person2 = new Person("KappaRoss",personResourceId);
-            Person person3 = new Person("KappaRoss",personResourceId);
-            Person person4 = new Person("KappaRoss",personResourceId);
-            Person person5 = new Person("KappaRoss",personResourceId);
+            User person1 = new User("KappaRoss",personResourceId);
+            User person2 = new User("KappaRoss",personResourceId);
+            User person3 = new User("KappaRoss",personResourceId);
+            User person4 = new User("KappaRoss",personResourceId);
+            User person5 = new User("KappaRoss",personResourceId);
             attendees.add(person1);
             attendees.add(person2);
             attendees.add(person3);

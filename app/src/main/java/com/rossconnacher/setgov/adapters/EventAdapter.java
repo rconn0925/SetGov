@@ -1,11 +1,9 @@
 package com.rossconnacher.setgov.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +12,8 @@ import android.view.ViewGroup;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.EventInfoFragment;
 import com.rossconnacher.setgov.models.Event;
-import com.rossconnacher.setgov.models.Person;
 import com.rossconnacher.setgov.viewholders.EventViewHolder;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +55,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         *
         holder.eventDate.setText(new DateFormatSymbols().getMonths()[event.getDate().getMonth()] + " "+ event.getDate().getDate());
        // holder.eventImage.setImageBitmap(event.getImage());
-        ArrayList<Person> personList = event.getAttendees();
+        ArrayList<User> personList = event.getAttendees();
         holder.eventAttendees.setAdapter(new PersonAdapter(mContext,personList));
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         holder.eventAttendees.setLayoutManager(layoutManager);

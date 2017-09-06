@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ import com.rossconnacher.setgov.adapters.PersonAdapter;
 import com.rossconnacher.setgov.models.Agenda;
 import com.rossconnacher.setgov.models.City;
 import com.rossconnacher.setgov.models.Event;
-import com.rossconnacher.setgov.models.Person;
+import com.rossconnacher.setgov.models.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private String mEventAddress;
     private String mEventDate;
     private int mEventImageResID;
-    private ArrayList<Person> mEventAttendees;
+    private ArrayList<User> mEventAttendees;
     private ArrayList<Agenda> mAgendas;
     private Event mEvent;
     
