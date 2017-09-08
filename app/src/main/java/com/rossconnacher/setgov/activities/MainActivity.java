@@ -18,7 +18,9 @@ import com.rossconnacher.setgov.eventscrapers.ForLauderdaleEventScraper;
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.AgendaInfoFragment;
 import com.rossconnacher.setgov.fragments.CitiesFragment;
+import com.rossconnacher.setgov.fragments.CityEventsFragment;
 import com.rossconnacher.setgov.fragments.CityFragment;
+import com.rossconnacher.setgov.fragments.CityInfoFragment;
 import com.rossconnacher.setgov.fragments.EventInfoFragment;
 import com.rossconnacher.setgov.fragments.SettingsFragment;
 import com.rossconnacher.setgov.models.Event;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements
         EventInfoFragment.OnFragmentInteractionListener,
         AgendaInfoFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
+        CityEventsFragment.OnFragmentInteractionListener,
+        CityInfoFragment.OnFragmentInteractionListener,
         View.OnClickListener{
 
     private static final String TAG = "MainActivity";

@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,15 +55,10 @@ public class CityFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = "CityFragment";
 
-    @InjectView(R.id.eventRecyclerView)
-    public RecyclerView eventView;
     @InjectView(R.id.myCityButton)
     public LinearLayout MyCityButton;
     @InjectView(R.id.eventsButton)
     public LinearLayout EventsButton;
-    private ArrayList<Event> mEvents;
-    private GridLayoutManager mEventLayoutManager;
-    private EventAdapter mEventAdapter;
     private City mCity;
 
     private OnFragmentInteractionListener mListener;
@@ -85,49 +82,33 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         if (getArguments() != null) {
             mCity = (City)getArguments().getSerializable(ARG_PARAM1);
         }
-        mEvents= new ArrayList<Event>();
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_city, container, false);
+        View view = inflater.inflate(R.layout.city_bottom_nav, container, false);
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mCity.toString());
         ImageView toolbarImage = (ImageView) getActivity().findViewById(R.id.settingsButton);
         toolbarImage.setImageResource(R.drawable.account_circle_white_192x192);
-        getEvents(mCity.getCityName());
+
         MyCityButton.setOnClickListener(this);
         EventsButton.setOnClickListener(this);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        setFragment(CityEventsFragment.newInstance(mCity));
         return view;
     }
-    public void getEvents(String city){
-        Log.d(TAG,"Get events for "+ city);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        String eventsJson = prefs.getString(city+"Events","null");
-        Log.d(TAG,"Event JSON: "+ eventsJson);
-        if(!eventsJson.equals(null)){
-            try{
-                JSONObject eventsJsonObj = new JSONObject(eventsJson);
-                JSONArray eventsJsonArray = eventsJsonObj.getJSONArray("upcomingEvents");
-                for(int i = 0; i < eventsJsonArray.length();i++){
-                    Log.d(TAG,"Event "+ i);
-                    Event event = new Event(eventsJsonArray.getJSONObject(i));
-                    mEvents.add(event);
-                }
-            } catch (JSONException e){
-            }
-        }
-        mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
-        eventView.setLayoutManager(mEventLayoutManager);
-        eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
-        eventView.setAdapter(mEventAdapter);
+    protected void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentContainer, fragment);
+        fragmentTransaction.commit();
     }
+
+    /*
     private void scrapeNewYorkEvents() {
         try {
             mEvents = new NewYorkEventScraper(getActivity()).execute().get();
@@ -172,9 +153,9 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
     }
 
+*/
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -206,9 +187,11 @@ public class CityFragment extends Fragment implements View.OnClickListener{
 
             MyCityButton.setBackgroundResource(R.color.colorNavyBlue);
             EventsButton.setBackgroundResource(R.color.colorOtherBlue);
+            setFragment(CityInfoFragment.newInstance(mCity));
         } else if(v.getId() == EventsButton.getId()){
             EventsButton.setBackgroundResource(R.color.colorNavyBlue);
             MyCityButton.setBackgroundResource(R.color.colorOtherBlue);
+            setFragment(CityEventsFragment.newInstance(mCity));
         }
     }
 

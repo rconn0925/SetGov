@@ -23,4 +23,6 @@
     <string name="facebook_app_id">463334580690664</string>
     <string name="my_city">My City</string>
     <string name="events">Events</string>
+    <string name="government">GOVERNMENT</string>
+    <string name="election">Election</string>
 </resources>
