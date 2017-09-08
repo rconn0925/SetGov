@@ -2,19 +2,27 @@ package com.rossconnacher.setgov.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.rossconnacher.setgov.R;
 import com.rossconnacher.setgov.fragments.CityFragment;
 import com.rossconnacher.setgov.models.City;
 import com.rossconnacher.setgov.viewholders.CityViewHolder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +70,40 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
         return mCities.size();
     }
 
+    public boolean cityHasEvents(String city) {
+        Log.d(TAG, "Get events for " + city);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
+        String eventsJson = prefs.getString(city + "Events", "null");
+        Log.d(TAG, "Event JSON: " + eventsJson);
+        if (!eventsJson.equals("null")) {
+            try {
+                JSONObject eventsJsonObj = new JSONObject(eventsJson);
+                JSONArray eventsJsonArray = eventsJsonObj.getJSONArray("upcomingEvents");
+                if(eventsJsonArray.length()==0){
+                    return false;
+                } else if(eventsJsonArray.length()>0){
+                    return true;
+                }
+            } catch (JSONException e) {
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onClick(View v) {
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
         City city = mCities.get(itemPosition);
-
-        FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
-        Fragment currentFragment = CityFragment.newInstance(city);
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
+        if(cityHasEvents(city.getCityName())){
+            FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+            Fragment currentFragment = CityFragment.newInstance(city);
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
+        } else {
+            Toast.makeText(mContext.getApplicationContext(), "No events for "+ city.toString()+".",
+                    Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

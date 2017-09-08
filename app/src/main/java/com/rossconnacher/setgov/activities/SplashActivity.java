@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void kickoffGetEvents(final String city){
         activeApiCall = new ApiGraphRequestTask(getApplicationContext());
-        
+
         String jsonQuery="query{upcomingEvents(city: \""+city+"\"){id,name,city,address,date,time,description,type,attendingUsers" +
                 "{id},comments{id,event{id},user{id,full_name,facebook_id,profileImage{url},home_city},text,karma,timestamp," +
                 "replies{id},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
@@ -56,15 +56,12 @@ public class SplashActivity extends AppCompatActivity {
                 activeApiCall = null;
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
-                    JSONArray upcomingEvents = (JSONArray) jsonResponse.getJSONObject("data").get("upcomingEvents");
-                    for(int i = 0; i < upcomingEvents.length();i++){
-                        Log.d(TAG, "upcoming events: "+i+" " + upcomingEvents.get(i).toString());
-                    }
+                    JSONObject data = jsonResponse.getJSONObject("data");
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(city+"Events",upcomingEvents.toString());
+                    editor.putString(city+"Events",data.toString());
                     editor.apply();
-                    Log.d(TAG, "upcoming events str: " + upcomingEvents.toString());
+                    Log.d(TAG, "upcoming events str: " + data.toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

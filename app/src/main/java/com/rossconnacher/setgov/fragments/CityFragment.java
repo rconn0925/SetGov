@@ -1,16 +1,21 @@
 package com.rossconnacher.setgov.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rossconnacher.setgov.eventscrapers.BostonEventScraper;
@@ -22,11 +27,16 @@ import com.rossconnacher.setgov.eventscrapers.NewYorkEventScraper;
 import com.rossconnacher.setgov.models.City;
 import com.rossconnacher.setgov.models.Event;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,11 +51,14 @@ public class CityFragment extends Fragment implements View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "city";
 
-    // TODO: Rename and change types of parameters
-
+    private static final String TAG = "CityFragment";
 
     @InjectView(R.id.eventRecyclerView)
     public RecyclerView eventView;
+    @InjectView(R.id.myCityButton)
+    public LinearLayout MyCityButton;
+    @InjectView(R.id.eventsButton)
+    public LinearLayout EventsButton;
     private ArrayList<Event> mEvents;
     private GridLayoutManager mEventLayoutManager;
     private EventAdapter mEventAdapter;
@@ -84,47 +97,36 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mCity.toString());
-      //  toolbarTitle.setText(mCity.toString());
-        if(mCity.toString().equals("Boston, MA")){
-            //add boston events
-            /*
-            ArrayList<User> attendees = new ArrayList<>();
-            Resources resources = this.getResources();
-            final int personResourceId = resources.getIdentifier("kappaross", "drawable",
-                    getActivity().getPackageName());
-
-            User person1 = new User("KappaRoss",personResourceId);
-            User person2 = new User("KappaRoss",personResourceId);
-            User person3 = new User("KappaRoss",personResourceId);
-            User person4 = new User("KappaRoss",personResourceId);
-            User person5 = new User("KappaRoss",personResourceId);
-            attendees.add(person1);
-            attendees.add(person2);
-            attendees.add(person3);
-            attendees.add(person4);
-            attendees.add(person5);
-
-
-            final int eventImageResourceId = resources.getIdentifier("firestation", "drawable",
-                    getActivity().getPackageName());
-            mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
-            mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
-            mEvents.add(new Event("City Council","Meeting", mCity, Calendar.getInstance().getTime(),"1 City Hall Square",new String[]{"enviromental","legislation"},attendees, eventImageResourceId));
-            */
-            scrapeBostonEvents();
-
-
-        } else if(mCity.toString().equals("Fort Lauderdale, FL")){
-            //add fort lauderdale events
-            scrapeFortLauderdaleEvents();
-
-        } else if(mCity.toString().equals("New York, NY")){
-            //add new york events
-            scrapeNewYorkEvents();
-
-        }
+        ImageView toolbarImage = (ImageView) getActivity().findViewById(R.id.settingsButton);
+        toolbarImage.setImageResource(R.drawable.account_circle_white_192x192);
+        getEvents(mCity.getCityName());
+        MyCityButton.setOnClickListener(this);
+        EventsButton.setOnClickListener(this);
 
         return view;
+    }
+    public void getEvents(String city){
+        Log.d(TAG,"Get events for "+ city);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        String eventsJson = prefs.getString(city+"Events","null");
+        Log.d(TAG,"Event JSON: "+ eventsJson);
+        if(!eventsJson.equals(null)){
+            try{
+                JSONObject eventsJsonObj = new JSONObject(eventsJson);
+                JSONArray eventsJsonArray = eventsJsonObj.getJSONArray("upcomingEvents");
+                for(int i = 0; i < eventsJsonArray.length();i++){
+                    Log.d(TAG,"Event "+ i);
+                    Event event = new Event(eventsJsonArray.getJSONObject(i));
+                    mEvents.add(event);
+                }
+            } catch (JSONException e){
+            }
+        }
+        mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
+        eventView.setLayoutManager(mEventLayoutManager);
+        eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
+        eventView.setAdapter(mEventAdapter);
     }
     private void scrapeNewYorkEvents() {
         try {
@@ -200,6 +202,14 @@ public class CityFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
+        if(v.getId() == MyCityButton.getId()){
+
+            MyCityButton.setBackgroundResource(R.color.colorNavyBlue);
+            EventsButton.setBackgroundResource(R.color.colorOtherBlue);
+        } else if(v.getId() == EventsButton.getId()){
+            EventsButton.setBackgroundResource(R.color.colorNavyBlue);
+            MyCityButton.setBackgroundResource(R.color.colorOtherBlue);
+        }
     }
 
     /**

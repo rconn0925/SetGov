@@ -4,94 +4,75 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rossconnacher.setgov.R;
-import com.rossconnacher.setgov.SimpleDividerItemDecoration;
-import com.rossconnacher.setgov.adapters.CityAdapter;
-import com.rossconnacher.setgov.models.City;
-import com.rossconnacher.setgov.models.Event;
+import com.rossconnacher.setgov.networking.ApiGraphRequestTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import okhttp3.Call;
+import okhttp3.Callback;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CitiesFragment.OnFragmentInteractionListener} interface
+ * {@link SettingsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CitiesFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CitiesFragment extends Fragment {
+public class SettingsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    private static final String TAG = "CitiesFragment" ;
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    @InjectView(R.id.citiesRecyclerView)
-    public RecyclerView citiesView;
-    private ArrayList<City> mCities;
-    private GridLayoutManager mCityLayoutManager;
-    private CityAdapter mCityAdapter;
-
     private OnFragmentInteractionListener mListener;
+    private ApiGraphRequestTask activeApiCall;
+    private final static String TAG = "SettingsFragment";
 
-    public CitiesFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
-    public static CitiesFragment newInstance() {
-        CitiesFragment fragment = new CitiesFragment();
+    // TODO: Rename and change types and number of parameters
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mCities = new ArrayList<>();
-
-        City boston = new City("Boston","MA");
-        City fortlauderdale = new City("Fort Lauderdale","FL");
-        City newyork = new City("New York","NY");
-
-        mCities.add(boston);
-        mCities.add(fortlauderdale);
-        mCities.add(newyork);
-
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_cities, container, false);
-        ButterKnife.inject(this,view);
-        mCityLayoutManager = new GridLayoutManager(getActivity(), 1);
-        citiesView.setLayoutManager(mCityLayoutManager);
-        citiesView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mCityAdapter = new CityAdapter(citiesView,getActivity(), mCities);
-        citiesView.setAdapter(mCityAdapter);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
+        toolbarTitle.setText("Settings");
         return view;
     }
 
@@ -117,6 +98,36 @@ public class CitiesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    public void kickoffChangeHomeCity(final String city){
+        activeApiCall = new ApiGraphRequestTask(getActivity());
+
+        String jsonQuery="mutation{setHomeCity(home_city: \""+city+"\")}";
+
+        ((ApiGraphRequestTask)activeApiCall).run(jsonQuery,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
+                activeApiCall = null;
+                //     handler.post(apiFailure);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                activeApiCall = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    Log.d(TAG, "home city response: " + jsonResponse.toString());
+                    //JSONObject data = jsonResponse.getJSONObject("data");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**

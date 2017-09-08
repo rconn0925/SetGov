@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rossconnacher.setgov.fragments.SettingsFragment"
+    android:background="@color/colorPaleGrey">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorNavyBlue"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPaleGrey"/>
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/settingProfileImage"
+        app:civ_border_width="4dp"
+        android:src="@drawable/firestation"
+        app:civ_border_color="@color/colorWhite"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsNameTextView"
+        android:textSize="20sp"
+        android:textColor="@color/colorNavyBlue"
+        android:text="Sample Name"
+        android:layout_marginBottom="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/settingProfileImage"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_border_white"
+        android:layout_below="@id/settingsNameTextView"
+        android:gravity="center"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingsCityName"
+            android:text="Sample City Name"
+            android:textColor="@color/colorNavyBlue"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change My City"
+            android:textSize="16sp"
+            android:textColor="@color/white_overlay"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <com.facebook.login.widget.LoginButton
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:layout_alignParentBottom="true"
+        facebook:com_facebook_login_text="Logout"
+        facebook:com_facebook_logout_text="Logout"
+        android:textSize="16sp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"/>
+
+</RelativeLayout>
