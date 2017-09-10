@@ -59,26 +59,26 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private ArrayList<Agenda> mAgendas;
     private Event mEvent;
     
-    @InjectView(R.id.eventInfoAddress)
-    public TextView eventInfoAddress;
-    @InjectView(R.id.eventInfoDate)
-    public TextView eventInfoDate;
-    @InjectView(R.id.eventInfoTime)
-    public TextView eventInfoTime;
-    @InjectView(R.id.eventInfoDiscussion)
-    public TextView eventInfoDiscussion;
+    @InjectView(R.id.eventInfoLocation)
+    public TextView eventInfoLocation;
+    @InjectView(R.id.eventInfoDateTime)
+    public TextView eventInfoDateTime;
+    @InjectView(R.id.eventInfoNumberGoing)
+    public TextView eventInfoNumberGoing;
+    @InjectView(R.id.eventInfoName)
+    public TextView eventInfoName;
+    @InjectView(R.id.eventInfoTag)
+    public TextView eventInfoTag;
     @InjectView(R.id.eventInfoImage)
     public ImageView eventInfoImage;
-    @InjectView(R.id.eventInfoCircleImage)
-    public CircleImageView eventInfoCircleImage;
-    @InjectView(R.id.eventInfoAttendButton)
-    public TextView eventInfoAttendButton;
+   // @InjectView(R.id.eventInfoAttendButton)
+   // public TextView eventInfoAttendButton;
     @InjectView(R.id.eventInfoAgenda)
     public RecyclerView eventInfoAgenda;
     @InjectView(R.id.eventInfoAttendees)
     public RecyclerView eventInfoAttendees;
-    @InjectView(R.id.centerLayout)
-    public LinearLayout centerLayout;
+    @InjectView(R.id.eventInfoComments)
+    public RecyclerView eventInfoComments;
 
     private LinearLayoutManager mLayoutManager;
     private AgendaAdapter mAgendaAdapter;
@@ -143,7 +143,6 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     public void initLiveStream() {
 
         //remove other views
-        centerLayout.setVisibility(View.GONE);
         eventInfoImage.setVisibility(View.GONE);
         YouTubePlayerFragment youTubePlayerFragment = YouTubePlayerFragment.newInstance();
         youTubePlayerFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -176,11 +175,17 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         ButterKnife.inject(this,view);
        // eventInfoImage.setImageResource(mEventImageResID);
         //eventInfoCircleImage.setImageResource(mEventImageResID);
-        eventInfoAddress.setText(mEventAddress);
-        eventInfoDate.setText(mEventDate);
-        eventInfoAttendButton.setOnClickListener(this);
+        eventInfoLocation.setText(mEventAddress);
+        eventInfoDateTime.setText(mEventDate);
+        eventInfoTag.setText(mEvent.getDescription());
+        eventInfoName.setText(mEvent.getName());
+        String numGoing = mEvent.getAttendees().size()+" going";
+        eventInfoNumberGoing.setText(numGoing);
+        ImageView settingsButton = (ImageView) getActivity().findViewById(R.id.settingsButton);
+        settingsButton.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+       // eventInfoAttendButton.setOnClickListener(this);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
-        toolbarTitle.setText(mEventName);
+        toolbarTitle.setText(R.string.event_details);
         populateAgenda();
        // populateAttendees();
         return view;
@@ -213,12 +218,14 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 
+        /*
        if (v.getId() == eventInfoAttendButton.getId()){
             //connect to live stream
             //alert dialog prompt
             eventInfoAttendButton.setText("Attending");
             initLiveStream();
         }
+        */
     }
 
     /**

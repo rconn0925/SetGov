@@ -130,4 +130,7 @@ public class Event implements Serializable{
     public ArrayList<User> getAttendees(){
         return attendees;
     }
+    public String getDescription() {return description;}
+    public String getTime() {return time;}
+
 }

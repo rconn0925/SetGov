@@ -19,16 +19,12 @@ public class EventViewHolder  extends RecyclerView.ViewHolder {
     public ImageView eventImage;
     @InjectView(R.id.eventName)
     public TextView eventName;
-    @InjectView(R.id.eventDate)
-    public TextView eventDate;
-    @InjectView(R.id.eventType)
-    public TextView eventType;
-    @InjectView(R.id.eventTag1)
-    public TextView eventTag1;
-    @InjectView(R.id.eventTag2)
-    public TextView eventTag2;
-    @InjectView(R.id.eventAttendeesTitle)
-    public TextView eventAttendeesTitle;
+    @InjectView(R.id.eventDateTime)
+    public TextView eventDateTime;
+    @InjectView(R.id.eventNumberGoing)
+    public TextView eventNumberGoing;
+    @InjectView(R.id.eventTag)
+    public TextView eventTag;
     @InjectView(R.id.eventAttendees)
     public RecyclerView eventAttendees;
 

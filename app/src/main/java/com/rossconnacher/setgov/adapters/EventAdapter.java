@@ -46,7 +46,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
     public void onBindViewHolder(EventViewHolder holder, int position) {
         final Event event = mEvents.get(position);
         holder.eventName.setText(event.getName());
-        holder.eventType.setText(event.getType());
+       // holder.eventType.setText(event.getType());
         /*
         holder.eventTag1.setText(event.getTags()[0]);
         if(event.getTags().length>1){
@@ -61,9 +61,10 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         holder.eventAttendees.setLayoutManager(layoutManager);
         holder.eventImage.setImageResource(event.getImageResID());
         */
-        holder.eventDate.setText(event.getDateStr());
-        holder.eventTag1.setVisibility(View.GONE);
-        holder.eventTag2.setVisibility(View.GONE);
+        holder.eventDateTime.setText(event.getDateStr()+" @ "+ event.getTime());
+        holder.eventNumberGoing.setText(event.getAttendees().size()+" going ");
+        holder.eventTag.setText(event.getDescription());
+
 
     }
 

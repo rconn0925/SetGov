@@ -9,12 +9,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white_overlay"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -22,10 +25,9 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoImage"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/firestation"
-                    android:alpha=".75"/>
+                    android:id="@+id/eventInfoImage"
+                    android:src="@drawable/firestation"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -35,90 +37,184 @@
                     android:layout_centerHorizontal="true">
                 </FrameLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical"
+                <TextView
+                    android:layout_width="107dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/eventInfoTag"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorWhite"
                     android:gravity="center"
-                    android:id="@+id/centerLayout">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:id="@+id/eventInfoCircleImage"
-                        android:paddingBottom="8dp"
-                        app:civ_border_width="2dp"
-                        android:src="@drawable/firestation"
-                        app:civ_border_color="@color/colorPrimary"/>
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoAttendButton"
-                        android:clickable="true"
-                        android:onClick="onClick"
-                        android:text="Attend"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/rounded_border_blue"
-                        android:gravity="center"
-                        android:textSize="15sp"/>
-
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:id="@+id/eventInfoLine"
-                android:padding="4dp"
-                android:layout_margin="4dp">
+                    android:layout_alignTop="@id/eventInfoImage"
+                    android:background="@drawable/rounded_border_purple"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoAddress"
-                    android:layout_alignParentStart="true"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoTime"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoDate"
-                    android:layout_toStartOf="@id/eventInfoTime"/>
-
+                    android:id="@+id/eventInfoName"
+                    android:layout_alignParentStart="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"
+                    android:padding="8dp"
+                    android:layout_alignBottom="@id/eventInfoImage" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white_overlay">
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:weightSum="3"
+                android:background="@drawable/rounded_border_white">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/eventInfoTimeLayout">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_access_time_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoDateTime"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorNavyBlue"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/eventInfoLocationLayout">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_location_on_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoLocation"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorNavyBlue"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:id="@+id/eventAttendeesLayout">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_people_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoNumberGoing"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorNavyBlue" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoAttendees">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_border_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoAgendaTitle"
-                    android:text="Agenda"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:padding="4sp"/>
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/eventInfoAgendaLayout">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_insert_drive_file_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoAgendaTitle"
+                        android:textSize="16sp"
+                        android:text="@string/agenda"
+                        android:textColor="@color/colorNavyBlue"/>
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/eventInfoAgenda"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/rounded_border_white">
 
-                </android.support.v7.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/eventInfoDiscussionLayout">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_sms_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoDiscussionTitle"
+                        android:textSize="16sp"
+                        android:text="@string/discussion"
+                        android:textColor="@color/colorNavyBlue"/>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -126,42 +222,12 @@
                     android:background="@android:color/darker_gray"
                     android:id="@+id/devider" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoAttendingTitle"
-                    android:text="Attending | Interested"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:padding="4sp"/>
-
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:id="@+id/eventInfoAttendees">
-                </android.support.v7.widget.RecyclerView>
-
+                    android:layout_height="wrap_content"
+                    android:id="@+id/eventInfoComments"
+                    android:orientation="vertical"/>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/eventInfoDiscussionTitle"
-                android:text="Disscussion Thread"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:padding="4sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/eventInfoDiscussion"
-                android:layout_margin="24dp"
-                android:text="Sample text Sample text Sample text Sample text Sample text Sample text Sample text "/>
-
-
         </LinearLayout>
 
     </ScrollView>

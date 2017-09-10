@@ -25,4 +25,7 @@
     <string name="events">Events</string>
     <string name="government">GOVERNMENT</string>
     <string name="election">Election</string>
+    <string name="event_details">Event Details</string>
+    <string name="agenda">Agenda</string>
+    <string name="discussion">Discussion</string>
 </resources>

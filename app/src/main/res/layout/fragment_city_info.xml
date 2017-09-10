@@ -1,73 +1,79 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white_overlay"
-    tools:context="com.rossconnacher.setgov.fragments.CityInfoFragment">
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topCityInfo">
+        android:layout_height="match_parent"
+        android:background="@color/white_overlay"
+        tools:context="com.rossconnacher.setgov.fragments.CityInfoFragment">
 
-        <ImageView
+        <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="169dp"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
-            android:id="@+id/cityInfoImage"
-            android:src="@drawable/boston"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/topCityInfo">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="169dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:id="@+id/cityInfoImage"
+                android:src="@drawable/boston"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id ="@+id/cityInfoCity"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id ="@+id/cityInfoState"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/cityInfoCity"/>
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id ="@+id/cityInfoCity"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
+            android:id="@+id/cityInfoGoverment"
+            android:textSize="16sp"
+            android:textColor="@color/colorNavyBlue"
+            android:text="@string/government"
+            android:layout_below="@+id/topCityInfo"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"/>
+            android:paddingTop="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_border_white"
+            android:id="@+id/cityInfoGovList"
+            android:layout_below="@+id/cityInfoGoverment"
+            android:orientation="vertical">
+
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id ="@+id/cityInfoState"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/cityInfoCity"/>
+            android:id="@+id/cityInfoElection"
+            android:textSize="16sp"
+            android:textColor="@color/colorNavyBlue"
+            android:text="@string/election"
+            android:layout_below="@+id/cityInfoGovList"
+            android:layout_centerHorizontal="true"/>
+
 
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cityInfoGoverment"
-        android:textSize="16sp"
-        android:textColor="@color/colorNavyBlue"
-        android:text="@string/government"
-        android:layout_below="@+id/topCityInfo"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="8dp"/>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/rounded_border_white"
-        android:id="@+id/cityInfoGovList"
-        android:layout_below="@+id/cityInfoGoverment"
-        android:orientation="vertical">
-
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cityInfoElection"
-        android:textSize="16sp"
-        android:textColor="@color/colorNavyBlue"
-        android:text="@string/election"
-        android:layout_below="@+id/cityInfoGovList"
-        android:layout_centerHorizontal="true"/>
-
-
-</RelativeLayout>
+</ScrollView>
