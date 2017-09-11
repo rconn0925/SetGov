@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:padding="8dp"
-    tools:context="com.rossconnacher.setgov.activities.LoginActivity">
+    tools:context="com.setgov.android.activities.LoginActivity">
     <ImageView
         android:layout_width="147dp"
         android:layout_height="227dp"

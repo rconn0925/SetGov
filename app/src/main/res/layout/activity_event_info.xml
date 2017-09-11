@@ -1,234 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.rossconnacher.setgov.activities.MainActivity">
+    android:layout_height="match_parent"
+    tools:context="com.setgov.android.activities.MainActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_overlay"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:id="@+id/eventInfoImage"
-                    android:src="@drawable/firestation"/>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="13dp"
-                    android:id="@+id/youtubeFragment"
-                    android:layout_centerHorizontal="true">
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="107dp"
-                    android:layout_height="32dp"
-                    android:id="@+id/eventInfoTag"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="8dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorWhite"
-                    android:gravity="center"
-                    android:layout_alignTop="@id/eventInfoImage"
-                    android:background="@drawable/rounded_border_purple"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoName"
-                    android:layout_alignParentStart="true"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorWhite"
-                    android:padding="8dp"
-                    android:layout_alignBottom="@id/eventInfoImage" />
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_margin="8dp"
-                android:weightSum="3"
-                android:background="@drawable/rounded_border_white">
+                android:background="@color/white_overlay"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:id="@+id/eventInfoImage"
+                        android:src="@drawable/firestation"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="13dp"
+                        android:id="@+id/youtubeFragment"
+                        android:layout_centerHorizontal="true">
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="107dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/eventInfoTag"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="8dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:layout_alignTop="@id/eventInfoImage"
+                        android:background="@drawable/rounded_border_purple"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventInfoName"
+                        android:layout_alignParentStart="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorWhite"
+                        android:padding="8dp"
+                        android:layout_alignBottom="@id/eventInfoImage" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/eventInfoTimeLayout">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:weightSum="3"
+                    android:background="@drawable/rounded_border_white">
 
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_access_time_black_24dp"/>
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoDateTime"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorNavyBlue"/>
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/eventInfoTimeLayout">
 
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_access_time_black_24dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoDateTime"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorNavyBlue"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/eventInfoLocationLayout">
+
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_location_on_black_24dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoLocation"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorNavyBlue"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:id="@+id/eventAttendeesLayout">
+
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_people_black_24dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoNumberGoing"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorNavyBlue" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoAttendees">
+                        </android.support.v7.widget.RecyclerView>
+
+                    </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/eventInfoLocationLayout">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rounded_border_white">
 
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_location_on_black_24dp"/>
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoLocation"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorNavyBlue"/>
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/eventInfoAgendaLayout">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_insert_drive_file_black_24dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:id="@+id/eventAttendeesLayout">
-
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_people_black_24dp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoNumberGoing"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorNavyBlue" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoAgendaTitle"
+                            android:textSize="16sp"
+                            android:text="@string/agenda"
+                            android:textColor="@color/colorNavyBlue"/>
+                    </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoAttendees">
-                    </android.support.v7.widget.RecyclerView>
-
+                        android:id="@+id/eventInfoAgenda"
+                        android:orientation="horizontal"/>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/rounded_border_white">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/eventInfoAgendaLayout">
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rounded_border_white">
 
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_insert_drive_file_black_24dp"/>
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoAgendaTitle"
-                        android:textSize="16sp"
-                        android:text="@string/agenda"
-                        android:textColor="@color/colorNavyBlue"/>
-                </LinearLayout>
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/eventInfoDiscussionLayout">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoAgenda"
-                    android:orientation="horizontal"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/rounded_border_white">
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_sms_black_24dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:id="@+id/eventInfoDiscussionLayout">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/eventInfoDiscussionTitle"
+                            android:textSize="16sp"
+                            android:text="@string/discussion"
+                            android:textColor="@color/colorNavyBlue"/>
+                    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/ic_sms_black_24dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:id="@+id/devider" />
 
-                    <TextView
+                    <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/eventInfoDiscussionTitle"
-                        android:textSize="16sp"
-                        android:text="@string/discussion"
-                        android:textColor="@color/colorNavyBlue"/>
+                        android:id="@+id/eventInfoComments"
+                        android:orientation="vertical"/>
                 </LinearLayout>
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:id="@+id/devider" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoComments"
-                    android:orientation="vertical"/>
+                    android:layout_height="49dp"
+                    android:background="@color/colorDeepSkyBlue"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:text="JOIN AND RSVP"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:clickable="true"
+                    android:id="@+id/eventInfoAttendButton"/>
             </LinearLayout>
-        </LinearLayout>
 
     </ScrollView>
-</LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/rsvp_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+    </FrameLayout>
+</RelativeLayout>
+

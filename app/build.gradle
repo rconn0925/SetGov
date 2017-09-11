@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.rossconnacher.setgov"
+        applicationId "com.setgov.android"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
@@ -52,5 +52,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    compile 'net.danlew:android.joda:2.8.2'
     testCompile 'junit:junit:4.12'
 }

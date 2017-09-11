@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_overlay"
+    android:clickable="true"
+    android:onClick="onClick"
+    android:id="@+id/rsvpBackground">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_close_black_24dp"
+        android:padding="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_border_white"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:text="@string/addtocalendar"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:id="@+id/rsvpAddCalendarButton"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_border_red"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:text="@string/invite_my_friends"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:id="@+id/rsvpInviteFriendsButton"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/rounded_border_blue"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorNavyBlue</item>
         <item name="colorPrimaryDark">@color/colorNavyBlue</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
