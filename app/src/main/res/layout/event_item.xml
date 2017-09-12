@@ -41,7 +41,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="91dp"
         android:orientation="vertical"
         android:padding="8dp"
         android:layout_margin="8dp"
@@ -78,9 +78,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
-            android:id="@+id/eventAttendeesLayout">
+            android:id="@+id/eventAttendeesLayout"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="21dp"
@@ -88,19 +87,21 @@
                 android:id="@+id/peopleIcon"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_people_black_24dp"/>
+                android:src="@drawable/ic_people_black_24dp" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/eventNumberGoing"
                 android:textSize="16sp"
-                android:textColor="@color/colorNavyBlue" />
+                android:textColor="@color/colorNavyBlue"
+                android:layout_marginEnd="4dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/eventAttendees">
+                android:id="@+id/eventAttendees"
+                android:scrollbars="horizontal">
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>

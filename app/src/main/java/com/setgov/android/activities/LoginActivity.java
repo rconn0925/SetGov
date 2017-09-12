@@ -99,9 +99,10 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-    private void goToMainActivity() {
+    private void goToMainActivity(User user) {
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("facebookAccessToken", facebookAccessTokenString);
+        intent.putExtra("User",user);
         startActivity(intent);
         finishAffinity();
     }
@@ -176,7 +177,7 @@ public class LoginActivity extends AppCompatActivity{
                             editor.putBoolean("isLoggedIn",true);
                             editor.apply();
 
-                            goToMainActivity();
+                            goToMainActivity(user);
 
 
 

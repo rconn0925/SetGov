@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.setgov.android.R;
 import com.setgov.android.models.City;
+import com.setgov.android.models.User;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -44,15 +45,17 @@ public class CityFragment extends Fragment implements View.OnClickListener{
 
     private OnFragmentInteractionListener mListener;
     private ImageView backButton;
+    private User mUser;
 
     public CityFragment() {
         // Required empty public constructor
     }
 
-    public static CityFragment newInstance(City city) {
+    public static CityFragment newInstance(User user, City city) {
         CityFragment fragment = new CityFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, city);
+        args.putSerializable("User",user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,6 +65,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCity = (City)getArguments().getSerializable(ARG_PARAM1);
+            mUser = (User)getArguments().getSerializable("User");
         }
     }
 
@@ -80,7 +84,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         EventsButton.setOnClickListener(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
-        setFragment(CityEventsFragment.newInstance(mCity));
+        setFragment(CityEventsFragment.newInstance(mUser,mCity));
         return view;
     }
     protected void setFragment(Fragment fragment) {
@@ -174,7 +178,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         } else if(v.getId() == EventsButton.getId()){
             EventsButton.setBackgroundResource(R.color.colorNavyBlue);
             MyCityButton.setBackgroundResource(R.color.colorOtherBlue);
-            setFragment(CityEventsFragment.newInstance(mCity));
+            setFragment(CityEventsFragment.newInstance(mUser,mCity));
         }
     }
 

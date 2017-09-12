@@ -47,10 +47,11 @@
         android:background="@drawable/rounded_border_white"
         android:layout_below="@id/settingsNameTextView"
         android:gravity="center"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:padding="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/settingsCityName"
             android:text="Sample City Name"
@@ -58,14 +59,16 @@
             android:textSize="16sp"
             android:layout_weight="1"
             android:gravity="center"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/changeCityTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Change My City"
-            android:textSize="16sp"
-            android:textColor="@color/white_overlay"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:text="@string/change_my_city"
+            android:textColor="@color/black_overlay"
+            android:onClick="onClick"
+            android:clickable="true"/>
     </LinearLayout>
 
     <com.facebook.login.widget.LoginButton
@@ -81,5 +84,11 @@
         android:textSize="16sp"
         android:paddingBottom="12dp"
         android:paddingTop="12dp"/>
+
+    <FrameLayout
+        android:id="@+id/selectCityContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

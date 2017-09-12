@@ -1,5 +1,7 @@
 package com.setgov.android.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,7 @@ import com.setgov.android.eventscrapers.BostonEventScraper;
 import com.setgov.android.eventscrapers.ForLauderdaleEventScraper;
 import com.setgov.android.R;
 import com.setgov.android.fragments.AgendaInfoFragment;
+import com.setgov.android.fragments.ChangeMyCityFragment;
 import com.setgov.android.fragments.CitiesFragment;
 import com.setgov.android.fragments.CityEventsFragment;
 import com.setgov.android.fragments.CityFragment;
@@ -22,6 +25,10 @@ import com.setgov.android.fragments.EventInfoFragment;
 import com.setgov.android.fragments.RSVPFragment;
 import com.setgov.android.fragments.SettingsFragment;
 import com.setgov.android.models.Event;
+import com.setgov.android.models.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements
         CityEventsFragment.OnFragmentInteractionListener,
         CityInfoFragment.OnFragmentInteractionListener,
         RSVPFragment.OnFragmentInteractionListener,
+        ChangeMyCityFragment.OnFragmentInteractionListener,
         View.OnClickListener{
 
     private static final String TAG = "MainActivity";
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements
     public TextView toolbarTitle;
 
     ArrayList<Event> mEvents = new ArrayList<>();
+    private User mUser;
 
 
     @Override
@@ -59,7 +68,17 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         settingsButton.setOnClickListener(this);
-        Bundle bundle = getIntent().getExtras();
+        mUser = (User)getIntent().getSerializableExtra("User");
+        if(mUser==null){
+            SharedPreferences sp = getApplicationContext().getSharedPreferences
+                    ("auth", Context.MODE_PRIVATE);
+            String userJson = sp.getString("loggedInUserJson","");
+            try {
+                mUser = new User(new JSONObject(userJson));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
        // Typeface tf = new Typeface();
         //toolbarTitle.setTypeface(tf);
@@ -67,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
         //scrapeFortLauderdaleExcel();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment currentFragment = CitiesFragment.newInstance();
+        Fragment currentFragment = CitiesFragment.newInstance(mUser);
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.exit_to_right,R.anim.enter_from_left).replace(R.id.contentFrame, currentFragment).commit();
 
     }

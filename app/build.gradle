@@ -53,5 +53,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     compile 'net.danlew:android.joda:2.8.2'
+    compile 'com.jaredrummler:material-spinner:1.1.0'
     testCompile 'junit:junit:4.12'
 }

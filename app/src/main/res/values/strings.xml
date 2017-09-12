@@ -34,4 +34,7 @@
     <string name="addtocalendar">Add to my Calendar</string>
     <string name="invite_my_friends">Invite my friends</string>
     <string name="attending">ATTENDING</string>
+    <string name="change_my_city">Change My City</string>
+    <string name="settings">Settings</string>
+    <string name="done">Done</string>
 </resources>

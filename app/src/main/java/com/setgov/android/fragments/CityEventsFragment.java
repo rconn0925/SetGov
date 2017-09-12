@@ -18,6 +18,7 @@ import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.adapters.EventAdapter;
 import com.setgov.android.models.City;
 import com.setgov.android.models.Event;
+import com.setgov.android.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,16 +49,18 @@ public class CityEventsFragment extends Fragment {
     private ArrayList<Event> mEvents;
     private GridLayoutManager mEventLayoutManager;
     private EventAdapter mEventAdapter;
+    private User mUser;
 
     public CityEventsFragment() {
         // Required empty public constructor
     }
 
 
-    public static CityEventsFragment newInstance(City city) {
+    public static CityEventsFragment newInstance(User user, City city) {
         CityEventsFragment fragment = new CityEventsFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, city);
+        args.putSerializable("User",user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +70,7 @@ public class CityEventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCity = (City)getArguments().getSerializable(ARG_PARAM1);
+            mUser = (User)getArguments().getSerializable("User");
         }
         mEvents= new ArrayList<Event>();
     }
@@ -101,7 +105,7 @@ public class CityEventsFragment extends Fragment {
         mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
         eventView.setLayoutManager(mEventLayoutManager);
         eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
+        mEventAdapter = new EventAdapter(mUser,eventView,getActivity(), mEvents);
         eventView.setAdapter(mEventAdapter);
     }
     // TODO: Rename method, update argument and hook method into UI event

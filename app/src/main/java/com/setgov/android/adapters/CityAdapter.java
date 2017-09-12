@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.setgov.android.R;
 import com.setgov.android.fragments.CityFragment;
 import com.setgov.android.models.City;
+import com.setgov.android.models.User;
 import com.setgov.android.viewholders.CityViewHolder;
 
 import org.json.JSONArray;
@@ -37,11 +38,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
     private Context mContext;
     private List<City> mCities;
     private RecyclerView mRecyclerView;
+    private User mUser;
 
-    public CityAdapter(RecyclerView recyclerView,Context context, ArrayList<City> cities){
+    public CityAdapter(User user, RecyclerView recyclerView, Context context, ArrayList<City> cities){
         this.mContext = context;
         this.mCities = cities;
         this.mRecyclerView = recyclerView;
+        this.mUser = user;
     }
 
     @Override
@@ -100,7 +103,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
             prefs.edit().putString("userHomeCity",city.getCityName()).apply();
 
             FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
-            Fragment currentFragment = CityFragment.newInstance(city);
+            Fragment currentFragment = CityFragment.newInstance(mUser,city);
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
         } else {
             Toast.makeText(mContext.getApplicationContext(), "No events for "+ city.toString()+".",

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -23,7 +24,7 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.setgov.android.R;
 import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.adapters.AgendaAdapter;
-import com.setgov.android.adapters.PersonAdapter;
+import com.setgov.android.adapters.UserAdapter;
 import com.setgov.android.models.Agenda;
 import com.setgov.android.models.City;
 import com.setgov.android.models.Event;
@@ -92,6 +93,13 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private OnFragmentInteractionListener mListener;
     private ApiGraphRequestTask activeApiCall;
     private User mUser;
+    private Handler handler;
+    private Runnable toast = new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(getActivity().getApplicationContext(), "Attending "+ mEvent.getName() , Toast.LENGTH_LONG).show();
+        }
+    };
 
     public EventInfoFragment() {
         // Required empty public constructor
@@ -120,7 +128,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
          //   mEventImageResID = mEvent.getImageResID();
           //  mEventAttendees = mEvent.getAttendees();
             mAgendas = new ArrayList<Agenda>();
-
+            handler = new Handler();
             SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
                     ("auth", Context.MODE_PRIVATE);
             String userJson = sp.getString("loggedInUserJson", "");
@@ -151,7 +159,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     }
 
     public void populateAttendees(){
-        eventInfoAttendees.setAdapter(new PersonAdapter(getActivity(),mEventAttendees));
+        eventInfoAttendees.setAdapter(new UserAdapter(getActivity(),mEvent.getAttendees()));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         eventInfoAttendees.setLayoutManager(layoutManager);
     }
@@ -194,11 +202,12 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         //eventInfoCircleImage.setImageResource(mEventImageResID);
         eventInfoLocation.setText(mEventAddress);
         eventInfoDateTime.setText(mEventDate);
-
-        if(mUser.getAttendingEvents().contains(mEvent.getId())){
-            eventInfoTag.setText(R.string.attending);
-        } else {
-            eventInfoTag.setText(mEvent.getDescription());
+        eventInfoTag.setText(mEvent.getDescription());
+        for(int i = 0 ;i<mUser.getAttendingEvents().size();i++){
+            if(mUser.getAttendingEvents().get(i)==mEvent.getId()){
+                eventInfoTag.setText(R.string.attending);
+                eventInfoTag.setBackgroundResource(R.drawable.rounded_border_green);
+            }
         }
 
         eventInfoName.setText(mEvent.getName());
@@ -211,7 +220,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         toolbarTitle.setText(R.string.event_details);
         eventInfoAttendButton.setOnClickListener(this);
         populateAgenda();
-       // populateAttendees();
+        populateAttendees();
         return view;
     }
 
@@ -244,7 +253,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
 
        if (v.getId() == eventInfoAttendButton.getId()){
-          // kickoffAttendEvent();
+           kickoffAttendEvent();
 
            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
            RSVPFragment frag = RSVPFragment.newInstance(mEvent);
@@ -256,7 +265,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private void kickoffAttendEvent() {
         activeApiCall = new ApiGraphRequestTask(getActivity());
 
-        String jsonQuery="mutation{attendEvent(event_id: \""+mEvent.getId()+"\"){id}}";
+        String jsonQuery="mutation{attendEvent(event_id: "+mEvent.getId()+"){id}}";
 
         activeApiCall.run(jsonQuery,new Callback() {
             @Override
@@ -274,6 +283,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     Log.d(TAG, "attend event response: " + jsonResponse.toString());
                     //JSONObject data = jsonResponse.getJSONObject("data");
+                   handler.post(toast);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

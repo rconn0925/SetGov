@@ -34,7 +34,7 @@ public class User implements Serializable{
             if(json.has("home_city")) home_city =  json.getString("home_city");
             if(json.has("eventsAttending")){
                 JSONArray events =  json.getJSONArray("eventsAttending");
-              //  eventsAttending = new int[events.length()];
+               // eventsAttending = new int[events.length()];
                 eventsAttending = new ArrayList<>();
                 for(int i = 0; i <events.length();i++){
                     eventsAttending.add(events.getJSONObject(i).getInt("id"));
@@ -48,6 +48,27 @@ public class User implements Serializable{
     public User(String name, int imageResID){
         this.full_name = name;
         this.mImageResID = imageResID;
+    }
+
+    public void unattendEvent(int eventID){
+        for(Integer i:eventsAttending){
+            if(eventsAttending.get(i) == eventID){
+                eventsAttending.remove(i);
+            }
+        }
+    }
+    public void attendEvent(int eventID){
+        if(!eventsAttending.contains(eventID)) {
+            eventsAttending.add(eventID);
+        }
+    }
+    public boolean isAttendingEvent(int eventID){
+        for(int i = 0; i<eventsAttending.size();i++){
+            if(eventsAttending.get(i) == eventID){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setHomeCity(String city){

@@ -36,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         activeApiCall = new ApiGraphRequestTask(getApplicationContext());
 
         String jsonQuery="query{upcomingEvents(city: \""+city+"\"){id,name,city,address,date,time,description,type,attendingUsers" +
-                "{id},comments{id,event{id},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
+                "{id,profileImage{url}},comments{id,event{id},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
                 "replies{id},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
 
         ((ApiGraphRequestTask)activeApiCall).run(jsonQuery,new Callback() {

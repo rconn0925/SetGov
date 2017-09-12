@@ -18,6 +18,7 @@ import com.setgov.android.R;
 import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.adapters.CityAdapter;
 import com.setgov.android.models.City;
+import com.setgov.android.models.User;
 
 import java.util.ArrayList;
 
@@ -47,13 +48,17 @@ public class CitiesFragment extends Fragment {
     private CityAdapter mCityAdapter;
 
     private OnFragmentInteractionListener mListener;
+    private User mUser;
 
     public CitiesFragment() {
         // Required empty public constructor
     }
 
-    public static CitiesFragment newInstance() {
+    public static CitiesFragment newInstance(User user) {
         CitiesFragment fragment = new CitiesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("User", user);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,6 +66,7 @@ public class CitiesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mUser = (User)getArguments().getSerializable("User");
         mCities = new ArrayList<>();
 
         City boston = new City("Boston","MA");
@@ -81,7 +87,7 @@ public class CitiesFragment extends Fragment {
         mCityLayoutManager = new GridLayoutManager(getActivity(), 2);
         citiesView.setLayoutManager(mCityLayoutManager);
         citiesView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mCityAdapter = new CityAdapter(citiesView,getActivity(), mCities);
+        mCityAdapter = new CityAdapter(mUser, citiesView,getActivity(), mCities);
         citiesView.setAdapter(mCityAdapter);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(R.string.chooseyourcity);

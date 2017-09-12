@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 
 import com.setgov.android.R;
 import com.setgov.android.models.User;
-import com.setgov.android.viewholders.PersonViewHolder;
+import com.setgov.android.viewholders.UserViewHolder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +18,30 @@ import java.util.List;
  * Created by Ross on 6/18/2017.
  */
 
-public class PersonAdapter  extends RecyclerView.Adapter<PersonViewHolder>{
+public class UserAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
-    private static final String TAG = "PersonAdapter";
+    private static final String TAG = "UserAdapter";
     private Context mContext;
     private List<User> mUsers;
    // private RecyclerView mRecyclerView;
 
-    public PersonAdapter(Context context, ArrayList<User> users){
+    public UserAdapter(Context context, ArrayList<User> users){
         this.mContext = context;
         this.mUsers = users;
     }
 
     @Override
-    public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.person_item, parent, false);
-        return new PersonViewHolder(view);
+        return new UserViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder holder, int position) {
+    public void onBindViewHolder(UserViewHolder holder, int position) {
         final User user = mUsers.get(position);
-        holder.personImageView.setImageResource(user.getImageResID());
+        //holder.personImageView.setImageResource(user.getImageResID());
+        Picasso.with(mContext).load(user.getProfileImageUrl()).into(holder.personImageView);
     }
 
     @Override

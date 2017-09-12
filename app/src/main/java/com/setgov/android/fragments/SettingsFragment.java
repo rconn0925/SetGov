@@ -6,14 +6,17 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.setgov.android.R;
 import com.setgov.android.activities.LoginActivity;
 import com.setgov.android.models.User;
@@ -45,6 +48,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public TextView settingsCityName;
     @InjectView(R.id.settingProfileImage)
     public CircleImageView settingProfileImage;
+    @InjectView(R.id.changeCityTextView)
+    public TextView changeCityTextView;
+
     private SharedPreferences prefs;
 
     public SettingsFragment() {
@@ -60,6 +66,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreateView");
         if (getArguments() != null) {
 
         }
@@ -69,12 +76,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG,"onCreateView");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
-        toolbarTitle.setText("Settings");
+        toolbarTitle.setText(R.string.settings);
         logoutButton.setOnClickListener(this);
+        changeCityTextView.setOnClickListener(this);
+        //Toast.makeText(getActivity().getApplicationContext(), "Clicked ", Toast.LENGTH_LONG).show();
         JSONObject userJson = null;
         try {
             userJson = new JSONObject(prefs.getString("loggedInUserJson",""));
@@ -99,6 +109,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -108,43 +119,23 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        Log.d(TAG,"onAttach");
+    }
+
+    @Override
+    public void onActivityCreated (Bundle savedInstance) {
+        super.onActivityCreated(savedInstance);
+        Log.d(TAG,"onActivityCreated");
+        mListener = null;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        Log.d(TAG,"onDetach");
     }
 
-
-    public void kickoffChangeHomeCity(final String city){
-        activeApiCall = new ApiGraphRequestTask(getActivity());
-
-        String jsonQuery="mutation{setHomeCity(home_city: \""+city+"\")}";
-
-        activeApiCall.run(jsonQuery,new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
-                activeApiCall = null;
-                //     handler.post(apiFailure);
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                activeApiCall = null;
-                try {
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
-                    Log.d(TAG, "home city response: " + jsonResponse.toString());
-                    //JSONObject data = jsonResponse.getJSONObject("data");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     @Override
     public void onClick(View v) {
@@ -153,6 +144,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             Intent i = new Intent(getActivity(), LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+        } else if (v.getId() == changeCityTextView.getId()) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            ChangeMyCityFragment frag = ChangeMyCityFragment.newInstance();
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).add(R.id.selectCityContainer, frag,TAG).show(frag).commit();
         }
     }
 

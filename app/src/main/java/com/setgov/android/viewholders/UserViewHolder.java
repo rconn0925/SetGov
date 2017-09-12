@@ -13,12 +13,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Ross on 6/18/2017.
  */
 
-public class PersonViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends RecyclerView.ViewHolder {
 
     @InjectView(R.id.personImageView)
     public CircleImageView personImageView;
 
-    public PersonViewHolder(View itemView) {
+    public UserViewHolder(View itemView) {
         super(itemView);
         ButterKnife.inject(this, itemView);
     }
