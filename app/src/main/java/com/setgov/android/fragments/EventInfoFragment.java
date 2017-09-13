@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.setgov.android.R;
 import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.adapters.AgendaAdapter;
+import com.setgov.android.adapters.CommentAdapter;
 import com.setgov.android.adapters.UserAdapter;
 import com.setgov.android.models.Agenda;
 import com.setgov.android.models.City;
@@ -164,6 +166,13 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         eventInfoAttendees.setLayoutManager(layoutManager);
     }
 
+    public void populateComments(){
+        eventInfoComments.setAdapter(new CommentAdapter(mUser,eventInfoComments,getActivity(),mEvent.getComments()));
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+        eventInfoComments.setLayoutManager(layoutManager);
+        eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+    }
+
     public void initLiveStream() {
 
         //remove other views
@@ -221,6 +230,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         eventInfoAttendButton.setOnClickListener(this);
         populateAgenda();
         populateAttendees();
+        populateComments();
         return view;
     }
 

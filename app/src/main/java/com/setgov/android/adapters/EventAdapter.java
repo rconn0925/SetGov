@@ -78,6 +78,8 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         return mEvents.size();
     }
 
+
+
     @Override
     public void onClick(View v) {
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);

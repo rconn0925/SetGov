@@ -122,12 +122,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG,"onAttach");
     }
 
-    @Override
-    public void onActivityCreated (Bundle savedInstance) {
-        super.onActivityCreated(savedInstance);
-        Log.d(TAG,"onActivityCreated");
-        mListener = null;
-    }
 
     @Override
     public void onDetach() {

@@ -22,7 +22,7 @@ public class Event implements Serializable{
     private String[] tags;
     private ArrayList<User> attendees;
     private ArrayList<Agenda> agendaItems;
-    private ArrayList<Comment> commentItems;
+    private ArrayList<Comment> comments;
     private int imageResID;
     private City city;
     private String cityStr;
@@ -34,7 +34,7 @@ public class Event implements Serializable{
     public Event(JSONObject json){
         attendees = new ArrayList<>();
         agendaItems = new ArrayList<>();
-        commentItems = new ArrayList<>();
+        comments = new ArrayList<>();
         try {
             if(json.has("id")) id =  json.getInt("id");
             if (json.has("name")) name =  json.getString("name");
@@ -69,7 +69,7 @@ public class Event implements Serializable{
                 JSONArray commentsJson =  json.getJSONArray("comments");
                 for (int i = 0; i < commentsJson.length();i++){
                     Comment comment = new Comment(commentsJson.getJSONObject(i));
-                    commentItems.add(comment);
+                    comments.add(comment);
                 }
             }
             if (json.has("agendaItems")){
@@ -102,6 +102,7 @@ public class Event implements Serializable{
         this.city = city;
     }
 
+    public ArrayList<Comment> getComments(){return comments;}
     public int getId() {return id;}
     public int getImageResID(){
         return imageResID;
