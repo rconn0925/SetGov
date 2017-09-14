@@ -9,8 +9,8 @@ import org.json.JSONObject;
 
 public class Vote {
 
-    private Comment comment;
-    private User user;
+    private int commentID;
+    private int userID;
     private int id;
     private int vote_value;
 
@@ -19,10 +19,10 @@ public class Vote {
             if (json.has("id")) id = json.getInt("id");
             if (json.has("vote_value")) vote_value = json.getInt("vote_value");
             if (json.has("user")){
-                user = new User(json.getJSONObject("user"));
+                userID = json.getJSONObject("user").getInt("id");
             }
             if (json.has("comment")){
-                comment = new Comment(json.getJSONObject("comment"));
+                commentID = json.getJSONObject("comment").getInt("id");
             }
         } catch ( JSONException e){
 
@@ -31,6 +31,6 @@ public class Vote {
 
     public int getID(){return id;}
     public int getVoteValue(){return  vote_value;}
-    public User getUser(){return user;}
-    public Comment getComment(){return comment;}
+    public int getUser(){return userID;}
+    public int getComment(){return commentID;}
 }

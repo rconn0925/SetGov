@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.setgov.android.activities.LoginActivity;
 import com.setgov.android.activities.MainActivity;
+import com.setgov.android.activities.SplashActivity;
 
 /**
  * Created by Ross on 6/19/2017.
@@ -20,20 +21,8 @@ public class SetGov extends Application {
 
         // TODO Auto-generated method stub
         super.onCreate();
-
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("auth", Context.MODE_PRIVATE);
-        if(prefs.getBoolean("isLoggedIn", false)){
-            //Login activity
-            Log.d("SetGov","login from past session");
-            Intent i = new Intent(this, MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        } else {
-            //Main Activity
-            Log.d("SetGov","new login session");
-            Intent i = new Intent(this, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        }
+     //   Intent i = new Intent(this, SplashActivity.class);
+     //   i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+     //   startActivity(i);
     }
 }

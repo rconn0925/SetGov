@@ -22,6 +22,7 @@ public class Comment {
 
     public Comment(JSONObject json){
         try{
+            votes = new ArrayList<>();
             if(json.has("id")) id =  json.getInt("id");
             if (json.has("event")) eventID = json.getJSONObject("event").getInt("id");
             if (json.has("event")) eventCity = json.getJSONObject("event").getString("city");
@@ -42,6 +43,7 @@ public class Comment {
 
         }
     }
+
 
     public ArrayList<Vote> getVotes(){return votes;}
     public int getId() {return id;}

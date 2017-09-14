@@ -1,20 +1,29 @@
 package com.setgov.android.fragments;
 
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +41,9 @@ import com.setgov.android.models.City;
 import com.setgov.android.models.Event;
 import com.setgov.android.models.User;
 import com.setgov.android.networking.ApiGraphRequestTask;
+import com.setgov.android.util.MyEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,6 +97,8 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     public RecyclerView eventInfoAttendees;
     @InjectView(R.id.eventInfoComments)
     public RecyclerView eventInfoComments;
+    @InjectView(R.id.eventInfoCommentEditText)
+    public MyEditText eventInfoCommentEditText;
 
     private LinearLayoutManager mLayoutManager;
     private AgendaAdapter mAgendaAdapter;
@@ -131,13 +144,14 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
           //  mEventAttendees = mEvent.getAttendees();
             mAgendas = new ArrayList<Agenda>();
             handler = new Handler();
+
             SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
                     ("auth", Context.MODE_PRIVATE);
             String userJson = sp.getString("loggedInUserJson", "");
+
             try {
                 mUser = new User(new JSONObject(userJson));
-            } catch ( JSONException e){
-
+            } catch ( JSONException e) {
             }
 
 
@@ -167,12 +181,13 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     }
 
     public void populateComments(){
-        eventInfoComments.setAdapter(new CommentAdapter(mUser,eventInfoComments,getActivity(),mEvent.getComments()));
+        eventInfoComments.setAdapter(new CommentAdapter(mUser,eventInfoCommentEditText,getActivity(),mEvent.getComments()));
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         eventInfoComments.setLayoutManager(layoutManager);
         eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
     }
 
+    /*
     public void initLiveStream() {
 
         //remove other views
@@ -200,13 +215,16 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.add(R.id.youtubeFragment, youTubePlayerFragment).commit();
     }
+    */
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_event_info, container, false);
+        Log.d(TAG,"OnCreateView");
 
         ButterKnife.inject(this,view);
+
        // eventInfoImage.setImageResource(mEventImageResID);
         //eventInfoCircleImage.setImageResource(mEventImageResID);
         eventInfoLocation.setText(mEventAddress);
@@ -228,10 +246,62 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(R.string.event_details);
         eventInfoAttendButton.setOnClickListener(this);
+        eventInfoCommentEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        eventInfoCommentEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Do whatever you want here
+                    Log.d(TAG,"COMMENT DONE");
+
+                    kickoffAddComment(eventInfoCommentEditText.getText().toString(),mEvent.getId(),mEvent.getCity().getCityName());
+                    eventInfoCommentEditText.setGravity(Gravity.CENTER);
+                    eventInfoCommentEditText.setText("");
+                    eventInfoCommentEditText.setHint(R.string.enter_a_comment);
+                    eventInfoAttendButton.setVisibility(View.VISIBLE);
+                    eventInfoCommentEditText.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+        eventInfoCommentEditText.setOnFocusChangeListener(
+            new View.OnFocusChangeListener() {
+                  @Override
+                  public void onFocusChange(View v, boolean hasFocus) {
+                      if(hasFocus){
+                          eventInfoCommentEditText.setGravity(Gravity.LEFT | Gravity.TOP);
+                          eventInfoCommentEditText.setHint("");
+                          eventInfoAttendButton.setVisibility(View.GONE);
+
+                      } else {
+                          eventInfoCommentEditText.setGravity(Gravity.CENTER);
+                          eventInfoCommentEditText.setText("");
+                          eventInfoCommentEditText.setHint(R.string.enter_a_comment);
+                          eventInfoAttendButton.setVisibility(View.VISIBLE);
+                          hideKeyboard(v);
+                      }
+                  }
+        });
+        eventInfoCommentEditText.setKeyImeChangeListener(new MyEditText.KeyImeChange(){
+            @Override
+            public void onKeyIme(int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP){
+                    if(keyCode == KeyEvent.KEYCODE_BACK){
+                        eventInfoCommentEditText.clearFocus();
+                    }
+                }
+            }
+        });
         populateAgenda();
         populateAttendees();
         populateComments();
         return view;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
@@ -241,6 +311,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -264,12 +335,46 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
 
        if (v.getId() == eventInfoAttendButton.getId()){
            kickoffAttendEvent();
-
+           if(eventInfoCommentEditText.hasFocus()){
+              eventInfoCommentEditText.clearFocus();
+           }
            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
            RSVPFragment frag = RSVPFragment.newInstance(mEvent);
            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.exit_to_right,R.anim.enter_from_left).add(R.id.rsvp_container, frag).show(frag).commit();
         }
 
+    }
+
+    private void kickoffAddComment(String commentText, int commentEventID, final String commentEventCity){
+
+        activeApiCall = new ApiGraphRequestTask(getActivity());
+
+        String jsonQuery="mutation{addComment(text: \"" + commentText + "\",event_id: "+commentEventID+"){id}}";
+
+        activeApiCall.run(jsonQuery,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
+                activeApiCall = null;
+                //     handler.post(apiFailure);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                activeApiCall = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    Log.d(TAG, "add comment response: " + jsonResponse.toString());
+                    //JSONObject data = jsonResponse.getJSONObject("data");
+                    // Toast.makeText(mContext, "Added comment", Toast.LENGTH_SHORT).show();
+                    kickoffGetEvents(commentEventCity);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void kickoffAttendEvent() {
@@ -301,7 +406,61 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
             }
         });
     }
+    private void kickoffGetEvents(final String city){
+        activeApiCall = new ApiGraphRequestTask(getActivity());
 
+        String jsonQuery="query{upcomingEvents(city: \""+city+"\"){id,name,city,address,date,time,description,type,attendingUsers" +
+                "{id,profileImage{url}},comments{id,event{id,city},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
+                "votes{id,user{id},comment{id},vote_value},replies{id},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
+
+        activeApiCall.run(jsonQuery,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
+                activeApiCall = null;
+                //     handler.post(apiFailure);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                activeApiCall = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    JSONObject data = jsonResponse.getJSONObject("data");
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(city+"Events",data.toString());
+                    editor.apply();
+
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    Fragment fragment = fragmentManager.findFragmentById(R.id.contentFrame);
+                    if(fragment != null){
+                        Log.d(TAG,"is this null???");
+                        FragmentTransaction fragTransaction =fragmentManager.beginTransaction();
+                        fragTransaction.detach(fragment);
+                        fragTransaction.attach(fragment);
+                        fragTransaction.commitAllowingStateLoss();
+                    } else {
+                        Log.d(TAG,"you messed up!");
+                    }
+                    JSONArray eventsJsonArray = data.getJSONArray("upcomingEvents");
+                    for(int i = 0; i < eventsJsonArray.length();i++) {
+                        Log.d(TAG, "Event " + i);
+                        Event event = new Event(eventsJsonArray.getJSONObject(i));
+                        if(event.getId() == mEvent.getId()){
+                            mEvent = event;
+                        }
+                    }
+
+                    Log.d(TAG, "upcoming events str: " + data.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

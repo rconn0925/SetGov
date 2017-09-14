@@ -70,7 +70,7 @@ public class User implements Serializable{
         }
         return false;
     }
-
+    public int getID(){return id;}
     public void setHomeCity(String city){
         home_city = city;
     }

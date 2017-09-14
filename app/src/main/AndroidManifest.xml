@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.SetGov"
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize|layoutDirection"
         android:icon="@mipmap/ic_launcher"

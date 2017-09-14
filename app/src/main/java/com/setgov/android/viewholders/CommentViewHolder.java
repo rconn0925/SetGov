@@ -38,8 +38,17 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.commentUserProfile)
     public CircleImageView commentUserProfile;
 
+    public int karma;
+
     public CommentViewHolder(View itemView) {
         super(itemView);
         ButterKnife.inject(this,itemView);
+        karma = 0;
+    }
+
+
+    public int getKarma(){return karma;}
+    public void setKarma(int karma){
+        this.karma = karma;
     }
 }
