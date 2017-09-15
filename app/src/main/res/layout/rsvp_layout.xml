@@ -25,6 +25,48 @@
         android:padding="8dp"
         android:layout_centerInParent="true">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/check"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/youre_going"
+            android:textSize="18sp"
+            android:textColor="@color/colorNavyBlue"
+            android:padding="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/rsvp_event_name"
+            android:textColor="@color/colorNavyBlue"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/rsvp_event_date"
+            android:textColor="@color/colorNavyBlue"
+            android:gravity="center"
+            android:paddingBottom="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/rsvp_event_time"
+            android:textColor="@color/colorNavyBlue"
+            android:gravity="center"
+            android:paddingBottom="8dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="68dp"

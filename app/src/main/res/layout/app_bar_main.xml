@@ -38,7 +38,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:clickable="true"
-                    android:onClick="onClick" />
+                    android:onClick="onClick"
+                    android:tag="settings"/>
 
                 <TextView
                     android:layout_width="wrap_content"

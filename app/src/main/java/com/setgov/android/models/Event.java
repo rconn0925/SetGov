@@ -1,10 +1,14 @@
 package com.setgov.android.models;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -55,8 +59,44 @@ public class Event implements Serializable{
                 city = new City("Austin","TX");
             }
             if (json.has("address")) address =  json.getString("address");
-            if (json.has("date")) dateStr =  json.getString("date");
-            if (json.has("time")) time =  json.getString("time");
+            if (json.has("date")){
+                dateStr =  json.getString("date");
+                String day,month,year;
+                String[] dateParts = dateStr.split("/");
+                month = dateParts[0];
+                int monthInt = Integer.parseInt(month);
+                String[] str = {"January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"};
+                if(monthInt<=str.length){
+                    month = str[monthInt-1];
+                }
+                else{
+                    month = "Invalid month";
+                }
+                day = dateParts[1];
+                year = "20"+dateParts[2];
+                dateStr = month + " " + day + ", "+ year;
+            }
+            if (json.has("time")){
+                time =  json.getString("time");
+                if(time.startsWith("0")){
+                    time = time.substring(1);
+                }
+                if(time != null &&time.length()>0){
+                    time = time.substring(0,time.length()-3);
+                    time+="PM";
+                }
+            }
             if (json.has("description")) description =  json.getString("description");
             if (json.has("attendingUsers")){
                 JSONArray usersJson =  json.getJSONArray("attendingUsers");

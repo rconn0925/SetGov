@@ -58,7 +58,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             Toast.makeText(mContext, "Deleted comment", Toast.LENGTH_SHORT).show();
         }
     };
-    private int voteRecord;
 
     public CommentAdapter(User user, MyEditText editText, Context context, ArrayList<Comment> comments){
         this.mUser = user;
@@ -66,7 +65,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         this.mComments = comments;
         this.mContext = context;
         handler = new Handler();
-        voteRecord =0;
     }
 
     @Override
@@ -82,7 +80,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         holder.commentText.setText(comment.getText());
         holder.commentUserName.setText(comment.getUser().getName());
         holder.commentVoteScore.setText(""+comment.getKarma());
-
+        if(comment.getUser().getID()==mUser.getID()){
+            holder.commentDeleteButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.commentDeleteButton.setVisibility(View.GONE);
+        }
         for(int i = 0; i < comment.getVotes().size();i++){
             if(comment.getVotes().get(i).getUser() == mUser.getID()){
                 holder.setKarma(comment.getVotes().get(i).getVoteValue());
@@ -96,27 +98,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                 //check if user voted on comment already
                 //if user already voted cancel the vote
                 //if user hasnt voted, kickoffUpvoteComment
-
+                String currentNum = holder.commentVoteScore.getText().toString();
+                int num = Integer.parseInt(currentNum);
                 if(holder.karma == -1){
                     kickoffVoteOnComment(comment,1);
                     holder.setKarma(1);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
                     num++;
                     num++;
                     holder.commentVoteScore.setText(""+num);
                 } else if (holder.karma == 0) {
                     kickoffVoteOnComment(comment,1);
                     holder.setKarma(1);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
                     num++;
                     holder.commentVoteScore.setText(""+num);
                 } else if (holder.karma == 1){
                     kickoffVoteOnComment(comment,0);
                     holder.setKarma(0);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
                     num--;
                     holder.commentVoteScore.setText(""+num);
                 }
@@ -126,27 +123,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         holder.commentDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String currentNum = holder.commentVoteScore.getText().toString();
+                int num = Integer.parseInt(currentNum);
                 if(holder.karma  == 1){
                     kickoffVoteOnComment(comment,-1);
                     holder.setKarma(-1);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
+
                     num--;
                     num--;
                     holder.commentVoteScore.setText(""+num);
                 } else if (holder.karma  == 0) {
                     kickoffVoteOnComment(comment,-1);
                     holder.setKarma(-1);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
                     num--;
                     holder.commentVoteScore.setText(""+num);
                 } else if(holder.karma  == -1){
                     kickoffVoteOnComment(comment,0);
                     holder.setKarma(0);
-                    String currentNum = holder.commentVoteScore.getText().toString();
-                    int num = Integer.parseInt(currentNum);
                     num++;
                     holder.commentVoteScore.setText(""+num);
                 }
@@ -306,7 +299,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     Log.d(TAG, "delete comment response: " + jsonResponse.toString());
                     //JSONObject data = jsonResponse.getJSONObject("data");
-                   handler.post(deleteCommentToast);
+                    handler.post(deleteCommentToast);
                     kickoffGetEvents(comment.getEventCity());
 
                 } catch (JSONException e) {
@@ -315,4 +308,5 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             }
         });
     }
+
 }

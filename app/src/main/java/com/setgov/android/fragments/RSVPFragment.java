@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,14 @@ public class RSVPFragment extends Fragment implements View.OnClickListener {
     public TextView rsvpAddCalendarButton;
     @InjectView(R.id.rsvpInviteFriendsButton)
     public TextView rsvpInviteFriendsButton;
+    @InjectView(R.id.rsvp_event_date)
+    public TextView rsvpEventDate;
+    @InjectView(R.id.rsvp_event_name)
+    public TextView rsvpEventName;
+    @InjectView(R.id.rsvp_event_time)
+    public TextView rsvpEventTime;
+
+    private static final String TAG = "RSVPFragment";
 
 
     private OnFragmentInteractionListener mListener;
@@ -70,6 +80,9 @@ public class RSVPFragment extends Fragment implements View.OnClickListener {
         rsvpBackground.setOnClickListener(this);
         rsvpInviteFriendsButton.setOnClickListener(this);
 
+        rsvpEventName.setText(mEvent.getName());
+        rsvpEventDate.setText(mEvent.getDateStr());
+        rsvpEventTime.setText(mEvent.getTime());
 
         return view;
     }
@@ -124,7 +137,20 @@ public class RSVPFragment extends Fragment implements View.OnClickListener {
                 // Display some sort of error message here.
             }
         } else if(v.getId()==rsvpBackground.getId()){
+
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.contentFrame);
+            if(fragment != null){
+                Log.d(TAG,"is this null???");
+                FragmentTransaction fragTransaction =fragmentManager.beginTransaction();
+                fragTransaction.detach(fragment);
+                fragTransaction.attach(fragment);
+                fragTransaction.commitAllowingStateLoss();
+            } else {
+                Log.d(TAG,"you messed up!");
+            }
+
+
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.exit_to_right,R.anim.enter_from_left).remove(this).commit();
         }
     }

@@ -2,12 +2,15 @@ package com.setgov.android.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -128,20 +131,23 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         if(v.getId()==settingsButton.getId()){
-
+            Log.d(TAG,"settings button pressed");
             FragmentManager fragmentManager = getSupportFragmentManager();
 
-            if(settingsButton.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp).getConstantState())){
+            if(settingsButton.getTag().toString().equals("settings")){
+                Fragment currentFragment = SettingsFragment.newInstance();
+                settingsButton.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+                settingsButton.setTag("back");
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack("Settings").replace(R.id.contentFrame, currentFragment).commit();
+            } else if (settingsButton.getTag().toString().equals("back")){
+                Log.d(TAG,"settings button pressed3");
                 settingsButton.setImageResource(R.drawable.account_circle_white_192x192);
+                settingsButton.setTag("settings");
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     fragmentManager.popBackStack();
                 } else {
                     super.onBackPressed();
                 }
-            } else if(settingsButton.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.account_circle_white_192x192).getConstantState())){
-                Fragment currentFragment = SettingsFragment.newInstance();
-                settingsButton.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack("Settings").replace(R.id.contentFrame, currentFragment).commit();
             }
         }
     }

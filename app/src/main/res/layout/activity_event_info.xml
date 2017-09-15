@@ -62,7 +62,9 @@
                         android:textColor="@color/colorWhite"
                         android:gravity="center"
                         android:layout_alignTop="@id/eventInfoImage"
-                        android:background="@drawable/rounded_border_purple"/>
+                        android:background="@drawable/rounded_border_purple"
+                        android:onClick="onClick"
+                        android:clickable="true"/>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -21,7 +21,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="facebook_app_id">463334580690664</string>
+    <string name="facebook_app_id">1938435666430907</string>
 
     <string name="my_city">My City</string>
     <string name="events">Events</string>
@@ -39,4 +39,5 @@
     <string name="done">Done</string>
     <string name="reply">Reply</string>
     <string name="enter_a_comment">Enter a comment...</string>
+    <string name="youre_going">You\'re going!</string>
 </resources>

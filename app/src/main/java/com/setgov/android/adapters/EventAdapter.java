@@ -1,6 +1,7 @@
 package com.setgov.android.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,9 @@ import com.setgov.android.fragments.EventInfoFragment;
 import com.setgov.android.models.Event;
 import com.setgov.android.models.User;
 import com.setgov.android.viewholders.EventViewHolder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +35,18 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
     private User mUser;
 
 
-    public EventAdapter(User user,RecyclerView view, Context context, ArrayList<Event> events){
+    public EventAdapter(RecyclerView view, Context context, ArrayList<Event> events){
         this.mContext = context;
         this.mEvents = events;
         this.mRecyclerView = view;
-        this.mUser = user;
+        SharedPreferences sp = mContext.getApplicationContext().getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String userJson = sp.getString("loggedInUserJson","");
+        try {
+            this.mUser = new User(new JSONObject(userJson));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

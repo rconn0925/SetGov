@@ -105,7 +105,7 @@ public class CityEventsFragment extends Fragment {
         mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
         eventView.setLayoutManager(mEventLayoutManager);
         eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mEventAdapter = new EventAdapter(mUser,eventView,getActivity(), mEvents);
+        mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
         eventView.setAdapter(mEventAdapter);
     }
     // TODO: Rename method, update argument and hook method into UI event

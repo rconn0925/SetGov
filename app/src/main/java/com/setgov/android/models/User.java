@@ -22,22 +22,23 @@ public class User implements Serializable{
     private ArrayList<Integer> eventsAttending;
 
 
+
     private int mImageResID;
 
     public User(JSONObject json){
         userJsonStr = json.toString();
         try{
+            eventsAttending = new ArrayList<>();
             if(json.has("id")) id =  json.getInt("id");
             if(json.has("full_name")) full_name =  json.getString("full_name");
             if(json.has("facebook_id")) facebook_id =  json.getInt("facebook_id");
             if(json.has("profileImage")) profileImageUrl =  json.getJSONObject("profileImage").getString("url");
             if(json.has("home_city")) home_city =  json.getString("home_city");
             if(json.has("eventsAttending")){
-                JSONArray events =  json.getJSONArray("eventsAttending");
+                JSONArray eventsAttendingJson =  json.getJSONArray("eventsAttending");
                // eventsAttending = new int[events.length()];
-                eventsAttending = new ArrayList<>();
-                for(int i = 0; i <events.length();i++){
-                    eventsAttending.add(events.getJSONObject(i).getInt("id"));
+                for(int i = 0; i <eventsAttendingJson.length();i++){
+                    eventsAttending.add(eventsAttendingJson.getJSONObject(i).getInt("id"));
                 }
             }
         } catch (JSONException e) {
@@ -51,7 +52,7 @@ public class User implements Serializable{
     }
 
     public void unattendEvent(int eventID){
-        for(Integer i:eventsAttending){
+        for(int i = 0; i < eventsAttending.size();i++){
             if(eventsAttending.get(i) == eventID){
                 eventsAttending.remove(i);
             }
