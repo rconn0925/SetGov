@@ -64,7 +64,9 @@
            android:layout_width="match_parent"
            android:layout_height="180dp"
            android:background="@color/colorWhite"
-           android:id="@+id/cityPicker">
+           android:id="@+id/cityPicker"
+           android:descendantFocusability="blocksDescendants"
+           android:clickable="false">
 
        </NumberPicker>
        

@@ -3,11 +3,13 @@ package com.setgov.android.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Ross on 9/6/2017.
  */
 
-public class Vote {
+public class Vote implements Serializable {
 
     private int commentID;
     private int userID;

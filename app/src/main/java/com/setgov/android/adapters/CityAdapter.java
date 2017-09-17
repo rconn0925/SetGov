@@ -3,6 +3,7 @@ package com.setgov.android.adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -59,12 +60,20 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
     @Override
     public void onBindViewHolder(CityViewHolder holder, int position) {
         final City city = mCities.get(position);
-        holder.cityText.setText(city.getCityName()+", "+city.getState());
+        holder.cityNameText.setText(city.getCityName());
+        holder.cityStateText.setText(city.getState());
 
         Resources res = mContext.getResources();
         String mDrawableName = city.getCityName().toLowerCase().replace(" ","");
         int resID = res.getIdentifier(mDrawableName , "drawable", mContext.getPackageName());
         holder.cityImage.setImageResource(resID);
+        if(cityHasEvents(city.getCityName())){
+            holder.cityComingSoon.setVisibility(View.GONE);
+            holder.cityBackground.setBackgroundResource(0);
+        } else {
+            holder.cityComingSoon.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override

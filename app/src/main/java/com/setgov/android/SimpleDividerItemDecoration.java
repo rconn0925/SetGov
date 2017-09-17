@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by Ross on 6/15/2017.
  */
@@ -13,8 +15,12 @@ import android.view.View;
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
-    public SimpleDividerItemDecoration(Context context) {
-        mDivider = context.getResources().getDrawable(R.drawable.line_divider);
+    public SimpleDividerItemDecoration(Context context,boolean color) {
+        if(color){
+            mDivider = context.getResources().getDrawable(R.drawable.line_devider_color);
+        } else {
+            mDivider = context.getResources().getDrawable(R.drawable.line_divider);
+        }
     }
 
     @Override

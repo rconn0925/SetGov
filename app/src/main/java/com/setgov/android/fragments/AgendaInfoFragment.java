@@ -1,12 +1,15 @@
 package com.setgov.android.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +34,7 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
     private static final String ARG_PARAM1 = "agenda";
 
 
-
+/*
     @InjectView(R.id.agendaEventImage)
     public ImageView agendaEventImage;
     @InjectView(R.id.agendaDiscussionTopic)
@@ -40,6 +43,9 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
     public TextView agendaUpdate;
     @InjectView(R.id.agendaComments)
     public TextView agendaComments;
+    */
+    @InjectView(R.id.agendaPDF)
+    public WebView mWebView;
 
     private Agenda mAgenda;
     private Event mEvent;
@@ -73,15 +79,31 @@ public class AgendaInfoFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_agenda_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_agenda_info, container, false);
         ButterKnife.inject(this,view);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(mEvent.getName());
+
+
+
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E")));
+        /*
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setSupportZoom(false);
+        String doc="<iframe src='http://docs.google.com/gview?embedded=true&url=https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E' width='100%' height='100%' style='border: none;'></iframe>";
+
+        mWebView.loadDataWithBaseURL("notreal/", doc, "text/html", "utf-8",null);
+
 
         agendaComments.setText(mAgenda.getComments());
         agendaEventImage.setImageResource(mEvent.getImageResID());
         agendaDiscussionTopic.setText("Discussion Topic: "+mAgenda.getTitle());
         agendaUpdate.setText(mAgenda.getCategory());
+        */
 
         return view;
     }

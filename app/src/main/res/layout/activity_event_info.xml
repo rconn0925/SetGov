@@ -31,7 +31,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_overlay"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode ="true"
+                android:onClick="onClick"
+                android:clickable="true"
+                android:id="@+id/eventInfoBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -71,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/eventInfoName"
                         android:layout_alignParentStart="true"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textColor="@color/colorWhite"
                         android:padding="8dp"
                         android:layout_alignBottom="@id/eventInfoImage" />
@@ -92,7 +97,9 @@
                         android:layout_weight="1"
                         android:layout_marginTop="4dp"
                         android:orientation="horizontal"
-                        android:id="@+id/eventInfoTimeLayout">
+                        android:id="@+id/eventInfoTimeLayout"
+                        android:onClick="onClick"
+                        android:clickable="true">
 
                         <ImageView
                             android:layout_width="21dp"
@@ -116,7 +123,9 @@
                         android:layout_weight="1"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal"
-                        android:id="@+id/eventInfoLocationLayout">
+                        android:id="@+id/eventInfoLocationLayout"
+                        android:onClick="onClick"
+                        android:clickable="true">
 
                         <ImageView
                             android:layout_width="21dp"

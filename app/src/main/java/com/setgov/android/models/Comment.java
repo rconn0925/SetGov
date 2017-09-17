@@ -1,16 +1,22 @@
 package com.setgov.android.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Ross on 9/6/2017.
  */
 
-public class Comment {
+public class Comment implements Serializable {
+    private static final String TAG= "Comment";
     private String eventCity;
     private int id;
     private int eventID;
@@ -29,7 +35,9 @@ public class Comment {
             if (json.has("user")) user = new User(json.getJSONObject("user"));
             if (json.has("text")) text = json.getString("text");
             if (json.has("karma")) karma = json.getInt("karma");
-            if (json.has("timestamp")) timestamp = json.getString("timestamp");
+            if (json.has("timestamp")){
+                timestamp = json.getString("timestamp");
+            }
             if (json.has("votes")){
                 JSONArray votesJsonArray = json.getJSONArray("votes");
                 for(int i = 0; i < votesJsonArray.length();i++){

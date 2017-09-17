@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,18 @@ import android.widget.TextView;
 
 import com.setgov.android.R;
 import com.setgov.android.models.City;
+import com.setgov.android.networking.GoogleCivicApiEngine;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +34,7 @@ import butterknife.InjectView;
  * create an instance of this fragment.
  */
 public class CityInfoFragment extends Fragment {
+    private static final String TAG = "CityInfoFragment";
     private static final String ARG_PARAM1 = "city";
     @InjectView(R.id.cityInfoCity)
     public TextView cityName;
@@ -31,6 +42,7 @@ public class CityInfoFragment extends Fragment {
     public TextView stateName;
     private OnFragmentInteractionListener mListener;
     private City mCity;
+    private GoogleCivicApiEngine mEngine;
 
     public CityInfoFragment() {
         // Required empty public constructor
@@ -50,6 +62,26 @@ public class CityInfoFragment extends Fragment {
         if (getArguments() != null) {
             mCity = (City)getArguments().getSerializable(ARG_PARAM1);
         }
+         mEngine = new GoogleCivicApiEngine();
+        Call<String> elections = mEngine.getRepresentatives("Fort Lauderdale Florida");
+        elections.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d(TAG,"Get elections succes: " + response.body());
+
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = new JSONObject(response.body());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

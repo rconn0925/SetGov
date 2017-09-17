@@ -2,11 +2,13 @@ package com.setgov.android.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +27,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +38,11 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.setgov.android.R;
 import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.adapters.AgendaAdapter;
+import com.setgov.android.adapters.AgendaPDFAdapter;
 import com.setgov.android.adapters.CommentAdapter;
 import com.setgov.android.adapters.UserAdapter;
 import com.setgov.android.models.Agenda;
+import com.setgov.android.models.AgendaPDF;
 import com.setgov.android.models.City;
 import com.setgov.android.models.Event;
 import com.setgov.android.models.User;
@@ -75,7 +81,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private String mEventDate;
     private int mEventImageResID;
     private ArrayList<User> mEventAttendees;
-    private ArrayList<Agenda> mAgendas;
+    private ArrayList<AgendaPDF> mAgendas;
     private Event mEvent;
     
     @InjectView(R.id.eventInfoLocation)
@@ -100,9 +106,15 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     public RecyclerView eventInfoComments;
     @InjectView(R.id.eventInfoCommentEditText)
     public MyEditText eventInfoCommentEditText;
+    @InjectView(R.id.eventInfoTimeLayout)
+    public LinearLayout eventInfoTimeLayout;
+    @InjectView(R.id.eventInfoLocationLayout)
+    public LinearLayout eventInfoLocationLayout;
+    @InjectView(R.id.eventInfoBackground)
+    public LinearLayout eventInfoBackground;
 
     private LinearLayoutManager mLayoutManager;
-    private AgendaAdapter mAgendaAdapter;
+    private AgendaPDFAdapter mAgendaAdapter;
     private YouTubePlayer YPlayer;
 
 
@@ -164,18 +176,18 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     }
 
     public void populateAgenda(){
-        Agenda agenda1 = new Agenda("Tuck Tuck Tour","Licensing","test comments",mEvent);
-        Agenda agenda2 = new Agenda("Expand Las Olas","Ordinance","test comments",mEvent);
-        Agenda agenda3 = new Agenda("Water Works","Safety","test comments",mEvent);
-        Agenda agenda4 = new Agenda("Water Works","Safety","test comments",mEvent);
-        mAgendas.add(agenda1);
-        mAgendas.add(agenda2);
-        mAgendas.add(agenda3);
-        mAgendas.add(agenda4);
+        AgendaPDF agendaPDF = new AgendaPDF(mEvent,"https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E");
+    //    Agenda agenda2 = new Agenda("Expand Las Olas","Ordinance","test comments",mEvent);
+     //   Agenda agenda3 = new Agenda("Water Works","Safety","test comments",mEvent);
+    //    Agenda agenda4 = new Agenda("Water Works","Safety","test comments",mEvent);
+      //  mAgendas.add(agenda1);
+      //  mAgendas.add(agenda2);
+       // mAgendas.add(agenda3);
+        mAgendas.add(agendaPDF);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         eventInfoAgenda.setLayoutManager(mLayoutManager);
-        eventInfoAgenda.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        mAgendaAdapter = new AgendaAdapter(eventInfoAgenda,getActivity(), mAgendas);
+        eventInfoAgenda.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
+        mAgendaAdapter = new AgendaPDFAdapter(eventInfoAgenda,getActivity(), mAgendas);
         eventInfoAgenda.setAdapter(mAgendaAdapter);
     }
 
@@ -189,7 +201,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         eventInfoComments.setAdapter(new CommentAdapter(mUser,eventInfoCommentEditText,getActivity(),mEvent.getComments()));
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         eventInfoComments.setLayoutManager(layoutManager);
-        eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
     }
 
     /*
@@ -229,7 +241,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         Log.d(TAG,"OnCreateView");
 
         ButterKnife.inject(this,view);
-        mAgendas = new ArrayList<Agenda>();
+        mAgendas = new ArrayList<AgendaPDF>();
        // eventInfoImage.setImageResource(mEventImageResID);
         //eventInfoCircleImage.setImageResource(mEventImageResID);
         eventInfoLocation.setText(mEventAddress);
@@ -252,6 +264,9 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(R.string.event_details);
         eventInfoTag.setOnClickListener(this);
+        eventInfoLocationLayout.setOnClickListener(this);
+        eventInfoTimeLayout.setOnClickListener(this);
+        eventInfoBackground.setOnClickListener(this);
         eventInfoAttendButton.setOnClickListener(new DebouncedOnClickListener(1000) {
             @Override
             public void onDebouncedClick(View v) {
@@ -276,7 +291,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                     eventInfoCommentEditText.setText("");
                     eventInfoCommentEditText.setHint(R.string.enter_a_comment);
                     eventInfoAttendButton.setVisibility(View.VISIBLE);
-                    eventInfoCommentEditText.requestFocus();
+                    eventInfoCommentEditText.clearFocus();
                     return true;
                 }
                 return false;
@@ -292,11 +307,11 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                           eventInfoAttendButton.setVisibility(View.GONE);
 
                       } else {
+                          hideKeyboard(v);
                           eventInfoCommentEditText.setGravity(Gravity.CENTER);
                           eventInfoCommentEditText.setText("");
                           eventInfoCommentEditText.setHint(R.string.enter_a_comment);
                           eventInfoAttendButton.setVisibility(View.VISIBLE);
-                          hideKeyboard(v);
                       }
                   }
         });
@@ -372,7 +387,27 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                eventInfoTag.setText(mEvent.getDescription());
                eventInfoTag.setBackgroundResource(R.drawable.rounded_border_purple);
            }
-       }
+       } else if (v.getId() == eventInfoLocationLayout.getId()){
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("google.navigation:q="+mEvent.getAddress()+"+"+mEvent.getCity().getCityName()));
+            startActivity(intent);
+
+        } else if (v.getId() == eventInfoTimeLayout.getId()) {
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    //        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                    //       .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, mEvent.getName())
+                    .putExtra(CalendarContract.Events.DESCRIPTION, mEvent.getDescription())
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, mEvent.getAddress())
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            //  .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+            startActivity(intent);
+        } else if (v.getId() == eventInfoBackground.getId()){
+            if(eventInfoCommentEditText.hasFocus()){
+                eventInfoCommentEditText.requestFocus();
+            }
+        }
 
     }
 

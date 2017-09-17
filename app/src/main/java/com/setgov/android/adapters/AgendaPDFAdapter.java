@@ -1,59 +1,55 @@
 package com.setgov.android.adapters;
 
+/**
+ * Created by Ross on 9/16/2017.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import com.setgov.android.R;
-import com.setgov.android.fragments.AgendaInfoFragment;
-import com.setgov.android.models.Agenda;
+import com.setgov.android.models.AgendaPDF;
+import com.setgov.android.viewholders.AgendaPDFViewHolder;
 import com.setgov.android.viewholders.AgendaViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ross on 6/16/2017.
- */
 
-public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implements View.OnClickListener {
 
-    private static final String TAG = "AgendaAdapter";
+public class AgendaPDFAdapter extends RecyclerView.Adapter<AgendaPDFViewHolder> implements View.OnClickListener {
+
+    private static final String TAG = "AgendaPDFAdapter";
     private Context mContext;
-    private List<Agenda> mAgendas;
+    private List<AgendaPDF> mAgendas;
     private RecyclerView mRecyclerView;
 
-    public AgendaAdapter(RecyclerView recyclerView, Context context, ArrayList<Agenda> agendas){
+    public AgendaPDFAdapter(RecyclerView recyclerView, Context context, ArrayList<AgendaPDF> agendas){
         this.mRecyclerView = recyclerView;
         this.mContext = context;
         this.mAgendas = agendas;
     }
 
     @Override
-    public AgendaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AgendaPDFViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.agenda_item, parent, false);
+        View view = inflater.inflate(R.layout.agenda_pdf_item, parent, false);
         view.setOnClickListener(this);
-        return new AgendaViewHolder(view);
+        return new AgendaPDFViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AgendaViewHolder holder, int position) {
-        final Agenda agenda = mAgendas.get(position);
+    public void onBindViewHolder(AgendaPDFViewHolder holder, int position) {
+        final AgendaPDF agenda = mAgendas.get(position);
 
-        holder.agendaTitle.setText(agenda.getTitle());
-        holder.agendaCategory.setText(agenda.getCategory());
-      //  holder.agendaimage.setImageDrawable();
+        holder.agendaCategory.setText(agenda.getEvent().getDescription());
+
     }
 
     @Override
@@ -67,11 +63,11 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
 
 
         int itemPosition = mRecyclerView.getChildLayoutPosition(v);
-        Agenda agenda = mAgendas.get(itemPosition);
+        AgendaPDF agenda = mAgendas.get(itemPosition);
         Log.d(TAG," agendaEventID: "+ agenda.getEvent().getId());
 
         if(agenda.getEvent().getId() == 28) {
-            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E")));
+            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(agenda.getPdfURL())));
         }
 
         /*

@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                 holder.setKarma(comment.getVotes().get(i).getVoteValue());
             }
         }
-        holder.commentTimePosted.setText(""+comment.getTimestamp());
+        holder.commentTimePosted.setText(formatCommentDate(comment.getTimestamp()));
         Picasso.with(mContext).load(mUser.getProfileImageUrl()).into(holder.commentUserProfile);
         holder.commentUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +194,76 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         });
     }
 
+    public String formatCommentDate(String timestamp){
+        String[] timeParts = timestamp.split(" ");
+        String[] str = {"January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"};
+        String formattedTimestamp, day, month, year, time;
+        int monthInt=0;
+        int dayInt;
+        month = timeParts[1];
+        day = timeParts[2];
+        year = timeParts[3];
+        time = timeParts[4];
+        for(int i = 0;i<str.length;i++){
+            if(str[i].contains(month)){
+                monthInt = i+1;
+            }
+        }
+        if(monthInt<10&&monthInt>0){
+            month = "0" +monthInt;
+        } else {
+            month = ""+ monthInt;
+        }
+        dayInt = Integer.parseInt(day);
+        if(dayInt<10 &&dayInt>0){
+            day = "0" + dayInt;
+        } else{
+            day = ""+ dayInt;
+        }
+        formattedTimestamp = year+"-"+month+"-"+day +" "+time;
+        Timestamp mTimestamp = Timestamp.valueOf(formattedTimestamp);
+        long currentTime = System.currentTimeMillis();
+        long commentTime =mTimestamp.getTime();
+        long twentyFourHours = 86400000;
+        if(currentTime-commentTime<=twentyFourHours){
+            Log.d(TAG, "within 24 hours");
+            long numMillisAgo = currentTime-commentTime;
+
+            //less than an hour
+            if(numMillisAgo<3600000){
+                long minutes = (numMillisAgo/60000);
+                if(minutes == 1){
+                    timestamp = minutes + " min ago";
+                } else {
+                    timestamp = minutes + " mins ago";
+                }
+
+                //less than 24 hours
+            } else {
+                long hours = (numMillisAgo / 3600000);
+                if(hours == 1){
+                    timestamp = hours + " hour ago";
+                } else {
+                    timestamp = hours + " hours ago";
+                }
+            }
+
+        }else{
+            timestamp = str[monthInt-1]+" "+ dayInt + ", " +year;
+        }
+        return timestamp;
+    }
 
     @Override
     public int getItemCount() {

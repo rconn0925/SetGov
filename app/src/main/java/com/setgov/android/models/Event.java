@@ -21,7 +21,7 @@ public class Event implements Serializable{
     private int id;
     private String name;
     private String type;
-    private Date date;
+   // private Date date;
     private String address;
     private String[] tags;
     private ArrayList<User> attendees;
@@ -44,19 +44,19 @@ public class Event implements Serializable{
             if (json.has("name")) name =  json.getString("name");
             if (json.has("city")) cityStr =  json.getString("city");
             if(cityStr.equals("Boston")){
-                city = new City("Boston","MA");
+                city = new City("Boston","Massachusetts");
             } else if(cityStr.equals("Fort Lauderdale")){
-                city = new City("Fort Lauderdale","FL");
+                city = new City("Fort Lauderdale","Florida");
             } else if(cityStr.equals("Phoenix")){
-                city = new City("Phoenix","AZ");
+                city = new City("Phoenix","Arizona");
             } else if(cityStr.equals("San Jose")){
-                city = new City("San Jose","CA");
+                city = new City("San Jose","California");
             } else if(cityStr.equals("New York")){
-                city = new City("New York","NY");
+                city = new City("New York","New York");
             } else if(cityStr.equals("Miami")){
-                city = new City("Miami","FL");
+                city = new City("Miami","Florida");
             }  else if(cityStr.equals("Austin")){
-                city = new City("Austin","TX");
+                city = new City("Austin","Texas");
             }
             if (json.has("address")) address =  json.getString("address");
             if (json.has("date")){
@@ -127,7 +127,7 @@ public class Event implements Serializable{
     public Event(String name, String type, City city, Date date, String address, String[] tags, ArrayList<User> attendees, int resID){
         this.name = name;
         this.type = type;
-        this.date = date;
+      //  this.date = date;
         this.address = address;
         this.tags = tags;
         this.attendees = attendees;
@@ -155,9 +155,6 @@ public class Event implements Serializable{
     }
     public String getType(){
         return type;
-    }
-    public Date getDate(){
-        return date;
     }
     public String getDateStr(){
         return dateStr;

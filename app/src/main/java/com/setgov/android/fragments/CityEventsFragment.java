@@ -104,7 +104,7 @@ public class CityEventsFragment extends Fragment {
         }
         mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
         eventView.setLayoutManager(mEventLayoutManager);
-        eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
         mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
         eventView.setAdapter(mEventAdapter);
     }

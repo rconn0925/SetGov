@@ -69,13 +69,19 @@ public class CitiesFragment extends Fragment {
         mUser = (User)getArguments().getSerializable("User");
         mCities = new ArrayList<>();
 
-        City boston = new City("Boston","MA");
-        City fortlauderdale = new City("Fort Lauderdale","FL");
-        City newyork = new City("New York","NY");
+        City boston = new City("Boston","Massachusetts");
+        City fortlauderdale = new City("Fort Lauderdale","Florida");
+        City newyork = new City("New York","New York");
+        City austin = new City("Austin","Texas");
+        City phoenix = new City("Phoenix","Arizona");
+        City miami = new City("Miami","Florida");
 
         mCities.add(boston);
         mCities.add(fortlauderdale);
         mCities.add(newyork);
+        mCities.add(phoenix);
+        mCities.add(austin);
+        mCities.add(miami);
 
     }
 
@@ -86,7 +92,7 @@ public class CitiesFragment extends Fragment {
         ButterKnife.inject(this,view);
         mCityLayoutManager = new GridLayoutManager(getActivity(), 2);
         citiesView.setLayoutManager(mCityLayoutManager);
-        citiesView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        citiesView.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),true));
         mCityAdapter = new CityAdapter(mUser, citiesView,getActivity(), mCities);
         citiesView.setAdapter(mCityAdapter);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
