@@ -61,6 +61,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             Toast.makeText(mContext, "Deleted comment", Toast.LENGTH_SHORT).show();
         }
     };
+    final Runnable updateUI = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "updateStreamUI");
+                addRepliesToComment(commentReplyFrame);
+        }
+    };
+    private int commentCounter = 0;
+    private ArrayList<Comment> commentReplies;
+    private RecyclerView commentReplyFrame;
 
     public CommentAdapter(User user, MyEditText editText, Context context, ArrayList<Comment> comments){
         this.mUser = user;
@@ -68,6 +78,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         this.mComments = comments;
         this.mContext = context;
         handler = new Handler();
+        commentReplies = new ArrayList<Comment>();
     }
 
     @Override
@@ -201,12 +212,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         if(comment.getReplies().size()>0){
             Log.d(TAG, "has replies");
             for(int i = 0; i < comment.getReplies().size();i++){
-                kickoffGetComment(comment.getReplies().get(i));
+                kickoffGetComment(comment.getReplies().get(i),comment.getReplies().size());
+                commentReplyFrame = holder.commentReplyFrame;
             }
-          //  holder.commentReplyFrame.setAdapter(new CommentAdapter(mUser,mEditText,mContext,comment.getReplies()));
-            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 1);
-            holder.commentReplyFrame.setLayoutManager(layoutManager);
-            holder.commentReplyFrame.addItemDecoration(new SimpleDividerItemDecoration(mContext,false));
         }
     }
 
@@ -253,9 +261,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         long currentTime = System.currentTimeMillis();
         long commentTime =mTimestamp.getTime();
         long twentyFourHours = 86400000;
-        if(currentTime-commentTime<=twentyFourHours){
+        Log.d(TAG, "currentTime"+currentTime);
+        Log.d(TAG, "commentTime"+commentTime);
+        Log.d(TAG, "formatted timestamp: "+ formattedTimestamp);
+
+        if(commentTime-currentTime<=twentyFourHours){
             Log.d(TAG, "within 24 hours");
-            long numMillisAgo = currentTime-commentTime;
+            //minus 4 hours cause timezone change?
+            long numMillisAgo = Math.abs(commentTime-currentTime-4*3600000);
 
             //less than an hour
             if(numMillisAgo<3600000){
@@ -297,7 +310,47 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         mComments.add(comment);
         notifyItemInserted(mComments.size() - 1);
     }
-    private void kickoffGetComment(int commentID) {
+    public void addRepliesToComment(RecyclerView commentReplyFrame){
+        commentReplyFrame.setAdapter(new CommentAdapter(mUser,mEditText,mContext,commentReplies));
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 1);
+        commentReplyFrame.setLayoutManager(layoutManager);
+        //commentReplyFrame.addItemDecoration(new SimpleDividerItemDecoration(mContext,false));
+
+    }
+
+    private void kickoffGetComment( int commentID, final int toalNumReplies) {
+        activeApiCall = new ApiGraphRequestTask(mContext);
+        commentCounter++;
+        String jsonQuery="query{comment(id: "+commentID+"){id,event{id,city},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
+                "votes{id,user{id},comment{id},vote_value},replies{id},parentComment{id}}}";
+
+        activeApiCall.run(jsonQuery,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
+                activeApiCall = null;
+                //     handler.post(apiFailure);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                activeApiCall = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    Log.d(TAG, "getComment response: " + jsonResponse.toString());
+                    JSONObject data = jsonResponse.getJSONObject("data");
+                    Comment comment = new Comment(data.getJSONObject("comment"));
+                    commentReplies.add(comment);
+                    if(commentCounter==toalNumReplies){
+                        handler.post(updateUI);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     private void kickoffVoteOnComment(final Comment comment, int vote_value) {
         activeApiCall = new ApiGraphRequestTask(mContext);
