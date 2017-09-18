@@ -7,16 +7,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
- * Created by Ross on 9/6/2017.
+ * Created by Ross on 9/17/2017.
  */
 
-public class Comment implements Serializable {
-    private static final String TAG= "Comment";
+public class CommentReply implements Serializable {
+    private static final String TAG= "CommentReply";
     private String eventCity;
     private int id;
     private int eventID;
@@ -25,10 +23,11 @@ public class Comment implements Serializable {
     private int karma;
     private String timestamp;
     private ArrayList<Vote> votes;
-    private ArrayList<Integer> replies;
+    private ArrayList<Comment> replies;
     private int parentCommentID;
 
-    public Comment(JSONObject json){ Log.d(TAG,"comment constructor");
+    public CommentReply(JSONObject json){
+        Log.d(TAG,"comment constructor");
         try{
             votes = new ArrayList<>();
             replies = new ArrayList<>();
@@ -51,13 +50,13 @@ public class Comment implements Serializable {
                     }
                 }
             }
-           // if (json.has("parentComment")) parentCommentID = json.getJSONObject("parentComment").getInt("id");
+            // if (json.has("parentComment")) parentCommentID = json.getJSONObject("parentComment").getInt("id");
             if (json.has("replies")){
                 JSONArray repliesJson = json.getJSONArray("replies");
                 Log.d(TAG,"comment has replies: " + repliesJson.toString());
                 for(int i = 0; i<repliesJson.length();i++) {
                     Log.d(TAG,"comment reply: " + repliesJson.get(i).toString());
-                    replies.add(repliesJson.getJSONObject(i).getInt("id"));
+                    replies.add(new Comment(repliesJson.getJSONObject(i)));
                 }
             }
         }
@@ -66,7 +65,7 @@ public class Comment implements Serializable {
         }
     }
 
-    public ArrayList<Integer> getReplies(){return replies;}
+    public ArrayList<Comment> getReplies(){return replies;}
     public int getParentCommentID(){return parentCommentID;}
     public ArrayList<Vote> getVotes(){return votes;}
     public int getId() {return id;}

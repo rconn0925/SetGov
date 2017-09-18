@@ -2,6 +2,7 @@ package com.setgov.android.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +38,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public ImageView commentReportButton;
     @InjectView(R.id.commentUserProfile)
     public CircleImageView commentUserProfile;
-
+    @InjectView(R.id.commentReplyFrame)
+    public RecyclerView commentReplyFrame;
     public int karma;
 
     public CommentViewHolder(View itemView) {

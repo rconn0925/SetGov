@@ -34,7 +34,7 @@ public class ForLauderdaleEventScraper extends AsyncTask<Context,Void,ArrayList<
         ArrayList<String> eventDate = new ArrayList<>();
         ArrayList<String> eventTime = new ArrayList<>();
         ArrayList<String> eventLocation = new ArrayList<>();
-        City mCity = new City("Fort Lauderdale","FL");
+        City mCity = new City("Fort Lauderdale","Florida","Broward","FL");
 
         try {
             InputStream inputStream = mContext.getResources().getAssets().open("fldata.xls");

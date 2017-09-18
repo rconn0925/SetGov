@@ -44,19 +44,19 @@ public class Event implements Serializable{
             if (json.has("name")) name =  json.getString("name");
             if (json.has("city")) cityStr =  json.getString("city");
             if(cityStr.equals("Boston")){
-                city = new City("Boston","Massachusetts");
+                city = new City("Boston","Massachusetts","Suffolk","MA");
             } else if(cityStr.equals("Fort Lauderdale")){
-                city = new City("Fort Lauderdale","Florida");
+                city= new City("Fort Lauderdale","Florida","Broward","FL");
             } else if(cityStr.equals("Phoenix")){
-                city = new City("Phoenix","Arizona");
+                city = new City("Phoenix","Arizona","Maricopa","AZ");
             } else if(cityStr.equals("San Jose")){
-                city = new City("San Jose","California");
+                city = new City("San Jose","California","Santa Carla","CA");
             } else if(cityStr.equals("New York")){
-                city = new City("New York","New York");
+                city = new City("New York","New York","New York","NY");
             } else if(cityStr.equals("Miami")){
-                city = new City("Miami","Florida");
+                city = new City("Miami","Florida","Miami-Dade","FL");
             }  else if(cityStr.equals("Austin")){
-                city = new City("Austin","Texas");
+                city = new City("Austin","Texas","Travis","TX");
             }
             if (json.has("address")) address =  json.getString("address");
             if (json.has("date")){

@@ -34,7 +34,7 @@ public class NewYorkEventScraper extends AsyncTask<Context,Void,ArrayList<Event>
         ArrayList<String> eventDate = new ArrayList<>();
         ArrayList<String> eventTime = new ArrayList<>();
         ArrayList<String> eventLocation = new ArrayList<>();
-        City mCity = new City("New York","NY");
+        City mCity= new City("New York","New York","New York","NY");
 
         try {
             InputStream inputStream = mContext.getResources().getAssets().open("newyorkdata.xls");

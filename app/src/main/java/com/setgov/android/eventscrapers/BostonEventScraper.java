@@ -97,7 +97,7 @@ public class BostonEventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
                 Log.d("TAG",agendaTitles.toString());
                 */
 
-                City boston = new City("Boston","MA");
+                City boston = new City("Boston","Massachusetts","Suffolk","MA");
                 Event event = new Event(titles.get(m),categories.get(m),boston,whens.get(m),wheres.get(m));
                 mEvents.add(event);
 

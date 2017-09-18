@@ -286,7 +286,17 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                     // Do whatever you want here
                     Log.d(TAG,"COMMENT DONE");
 
-                    kickoffAddComment(eventInfoCommentEditText.getText().toString(),mEvent.getId(),mEvent.getCity().getCityName());
+                    SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
+                            ("auth", Context.MODE_PRIVATE);
+                    if(sp.getBoolean("isReply",false)){
+                        if(sp.getInt("replyTo",-1)>0){
+                            kickoffAddReply(eventInfoCommentEditText.getText().toString(),mEvent.getId(),sp.getInt("replyTo",0),mEvent.getCity().getCityName());
+                        }else {
+                            kickoffAddComment(eventInfoCommentEditText.getText().toString(),mEvent.getId(),mEvent.getCity().getCityName());
+                        }
+                    } else {
+                        kickoffAddComment(eventInfoCommentEditText.getText().toString(),mEvent.getId(),mEvent.getCity().getCityName());
+                    }
                     eventInfoCommentEditText.setGravity(Gravity.CENTER);
                     eventInfoCommentEditText.setText("");
                     eventInfoCommentEditText.setHint(R.string.enter_a_comment);
@@ -312,6 +322,11 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                           eventInfoCommentEditText.setText("");
                           eventInfoCommentEditText.setHint(R.string.enter_a_comment);
                           eventInfoAttendButton.setVisibility(View.VISIBLE);
+                          SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
+                                  ("auth", Context.MODE_PRIVATE);
+                          SharedPreferences.Editor editor = sp.edit();
+                          editor.putBoolean("isReply",false);
+                          editor.apply();
                       }
                   }
         });
@@ -410,9 +425,40 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         }
 
     }
+    private void kickoffAddReply(String commentText, int commentEventID, int parentCommentID, final String commentEventCity){
+        activeApiCall = new ApiGraphRequestTask(getActivity());
+        Log.d(TAG, "addReply");
+        String jsonQuery="mutation{addReply(text: \"" + commentText + "\",event_id: "+commentEventID+",parent_comment_id:"+parentCommentID+"){id}}";
+
+        activeApiCall.run(jsonQuery,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "ApiGraphRequestTask: onFailure ");
+                activeApiCall = null;
+                //     handler.post(apiFailure);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                activeApiCall = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    Log.d(TAG, "add reply response: " + jsonResponse.toString());
+                    //JSONObject data = jsonResponse.getJSONObject("data");
+                    // Toast.makeText(mContext, "Added comment", Toast.LENGTH_SHORT).show();
+                    kickoffGetEvents(commentEventCity,true,false);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
 
     private void kickoffAddComment(String commentText, int commentEventID, final String commentEventCity){
-
+        Log.d(TAG, "addComment");
         activeApiCall = new ApiGraphRequestTask(getActivity());
 
         String jsonQuery="mutation{addComment(text: \"" + commentText + "\",event_id: "+commentEventID+"){id}}";
@@ -548,11 +594,9 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
 
     private void kickoffGetEvents(final String city, final boolean refreshAfter, final boolean flag){
         activeApiCall = new ApiGraphRequestTask(getActivity());
-
         String jsonQuery="query{upcomingEvents(city: \""+city+"\"){id,name,city,address,date,time,description,type,attendingUsers" +
                 "{id,profileImage{url}},comments{id,event{id,city},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
                 "votes{id,user{id},comment{id},vote_value},replies{id},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
-
         activeApiCall.run(jsonQuery,new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

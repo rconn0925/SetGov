@@ -1,5 +1,47 @@
 package com.setgov.android.adapters;
 
+/**
+ * Created by Ross on 9/17/2017.
+ */
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.setgov.android.R;
+import com.setgov.android.SimpleDividerItemDecoration;
+import com.setgov.android.models.Comment;
+import com.setgov.android.models.CommentReply;
+import com.setgov.android.models.User;
+import com.setgov.android.networking.ApiGraphRequestTask;
+import com.setgov.android.util.MyEditText;
+import com.setgov.android.viewholders.CommentViewHolder;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -12,7 +54,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +63,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.setgov.android.R;
-import com.setgov.android.SimpleDividerItemDecoration;
 import com.setgov.android.models.Comment;
 import com.setgov.android.models.Event;
 import com.setgov.android.models.User;
@@ -47,10 +87,10 @@ import okhttp3.Response;
  * Created by Ross on 9/10/2017.
  */
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
+public class CommentReplyAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     private static final String TAG = "CommentAdapter";
     private Context mContext;
-    private List<Comment> mComments;
+    private List<CommentReply> mComments;
     private MyEditText mEditText;
     private User mUser;
     private ApiGraphRequestTask activeApiCall;
@@ -62,7 +102,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         }
     };
 
-    public CommentAdapter(User user, MyEditText editText, Context context, ArrayList<Comment> comments){
+    public CommentReplyAdapter(User user, MyEditText editText, Context context, ArrayList<CommentReply> comments){
         this.mUser = user;
         this.mEditText = editText;
         this.mComments = comments;
@@ -79,9 +119,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     @Override
     public void onBindViewHolder(final CommentViewHolder holder, int position) {
-        final Comment comment = mComments.get(position);
+        final CommentReply comment = mComments.get(position);
         holder.commentText.setText(comment.getText());
-       holder.commentUserName.setText(comment.getUser().getName());
+        holder.commentUserName.setText(comment.getUser().getName());
         holder.commentVoteScore.setText(""+comment.getKarma());
         if(comment.getUser().getID()==mUser.getID()){
             holder.commentDeleteButton.setVisibility(View.VISIBLE);
@@ -92,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             if(comment.getVotes().get(i).getUser() == mUser.getID()){
                 holder.setKarma(comment.getVotes().get(i).getVoteValue());
             }
-       }
+        }
         holder.commentTimePosted.setText(formatCommentDate(comment.getTimestamp()));
         Picasso.with(mContext).load(mUser.getProfileImageUrl()).into(holder.commentUserProfile);
         holder.commentUpvote.setOnClickListener(new View.OnClickListener() {
@@ -196,20 +236,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                 editor.putBoolean("isReply",true);
                 editor.putInt("replyTo",comment.getId());
                 editor.apply();
+
             }
         });
         if(comment.getReplies().size()>0){
-            Log.d(TAG, "has replies");
-            for(int i = 0; i < comment.getReplies().size();i++){
-                kickoffGetComment(comment.getReplies().get(i));
-            }
-          //  holder.commentReplyFrame.setAdapter(new CommentAdapter(mUser,mEditText,mContext,comment.getReplies()));
+            holder.commentReplyFrame.setAdapter(new CommentAdapter(mUser,mEditText,mContext,comment.getReplies()));
             GridLayoutManager layoutManager = new GridLayoutManager(mContext, 1);
             holder.commentReplyFrame.setLayoutManager(layoutManager);
             holder.commentReplyFrame.addItemDecoration(new SimpleDividerItemDecoration(mContext,false));
         }
     }
-
 
     public String formatCommentDate(String timestamp){
         String[] timeParts = timestamp.split(" ");
@@ -293,13 +329,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         notifyItemRemoved(position);
     }
 
-    private void addComment(Comment comment){
+    private void addComment(CommentReply comment){
         mComments.add(comment);
         notifyItemInserted(mComments.size() - 1);
     }
-    private void kickoffGetComment(int commentID) {
-    }
-    private void kickoffVoteOnComment(final Comment comment, int vote_value) {
+
+    private void kickoffVoteOnComment(final CommentReply comment, int vote_value) {
         activeApiCall = new ApiGraphRequestTask(mContext);
 
         String jsonQuery="mutation{voteOnComment(comment_id: "+comment.getId()+",vote_value:"+vote_value+"){id}}";
@@ -320,8 +355,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     Log.d(TAG, "vote on Comment response: " + jsonResponse.toString());
                     JSONObject data = jsonResponse.getJSONObject("data");
-             //       JSONObject vote = data.getJSONObject("voteOnComment");
-                   // int vote_value = vote.getInt("vote_value");
+                    //       JSONObject vote = data.getJSONObject("voteOnComment");
+                    // int vote_value = vote.getInt("vote_value");
                     kickoffGetEvents(comment.getEventCity());
 
                 } catch (JSONException e) {
@@ -336,8 +371,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
         String jsonQuery="query{upcomingEvents(city: \""+city+"\"){id,name,city,address,date,time,description,type,attendingUsers" +
                 "{id,profileImage{url}},comments{id,event{id,city},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
-                "votes{id,user{id},comment{id},vote_value},replies{id},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
-
+                "votes{id,user{id},comment{id},vote_value},replies{id,event{id,city},user{id,full_name,facebook_id,profileImage{url},home_city,eventsAttending{id}},text,karma,timestamp," +
+                "votes{id,user{id},comment{id},vote_value},replies{id},parentComment{id}},parentComment{id}},agendaItems{id,name,description,type,event{id}}}}";
         activeApiCall.run(jsonQuery,new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -366,7 +401,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         });
     }
 
-    private void kickoffDeleteComment(final Comment comment){
+    private void kickoffDeleteComment(final CommentReply comment){
 
         activeApiCall = new ApiGraphRequestTask(mContext);
 
@@ -399,3 +434,4 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     }
 
 }
+

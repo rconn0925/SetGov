@@ -14,33 +14,45 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/topCityInfo">
+            android:id="@+id/topCityInfo"
+            android:gravity="center_horizontal">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="169dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:id="@+id/cityInfoImage"
-                android:src="@drawable/boston"/>
+                android:id="@+id/cityInfoImage" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id ="@+id/cityInfoCity"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id ="@+id/cityInfoState"
-                android:textColor="@color/colorWhite"
-                android:textSize="14sp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/cityInfoCity"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="169dp"
+                android:id="@+id/cityInfoBackground"
+                android:background="@color/black_overlay">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="12dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id ="@+id/cityInfoCity"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id ="@+id/cityInfoState"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="14sp"
+                        android:paddingTop="8dp"/>
+
+                </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
         <TextView
@@ -54,16 +66,14 @@
             android:layout_centerHorizontal="true"
             android:paddingTop="8dp"/>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/rounded_border_white"
             android:id="@+id/cityInfoGovList"
-            android:layout_below="@+id/cityInfoGoverment"
-            android:orientation="vertical">
-
-        </LinearLayout>
+            android:layout_below="@+id/cityInfoGoverment">
+        </android.support.v7.widget.RecyclerView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -10,11 +10,17 @@ public class City implements Serializable{
 
     private String cityName;
     private String state;
+    private String stateShort;
+    private String county;
 
-    public City(String cityName,String state){
+    public City(String cityName,String state, String county, String stateShort){
         this.cityName = cityName;
         this.state = state;
+        this.stateShort = stateShort;
+        this.county = county;
     }
+    public String getStateShort(){return stateShort;}
+    public String getCounty(){return county;}
     public String getCityName(){
         return cityName;
     }
