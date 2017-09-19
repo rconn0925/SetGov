@@ -3,13 +3,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingTop="12dp">
+        android:paddingTop="12dp"
+        >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -38,31 +39,34 @@
         </View>
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        
+        android:orientation="vertical"
+        android:id="@+id/commentBackground"
+        android:clickable="true"
+        android:onClick="onClick">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-            
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:id="@+id/commentUserProfile"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"/>
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
-                
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -74,7 +78,7 @@
                         android:textSize="14sp"
                         android:id="@+id/commentUserName"
                         android:layout_alignParentStart="true" />
-                    
+
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="22dp"

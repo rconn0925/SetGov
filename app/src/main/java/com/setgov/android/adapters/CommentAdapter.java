@@ -37,6 +37,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -64,7 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     final Runnable updateUI = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG, "updateStreamUI");
+            Log.d(TAG, "updateUI");
                 addRepliesToComment(commentReplyFrame);
         }
     };
@@ -78,8 +80,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         this.mComments = comments;
         this.mContext = context;
         handler = new Handler();
+        sortComments();
         commentReplies = new ArrayList<Comment>();
     }
+
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -105,7 +109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             }
        }
         holder.commentTimePosted.setText(formatCommentDate(comment.getTimestamp()));
-        Picasso.with(mContext).load(mUser.getProfileImageUrl()).into(holder.commentUserProfile);
+        Picasso.with(mContext).load(comment.getUser().getProfileImageUrl()).into(holder.commentUserProfile);
         holder.commentUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,6 +302,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     @Override
     public int getItemCount() {
         return mComments.size();
+    }
+
+    private void sortComments() {
+        Collections.sort(mComments,new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                return o2.getKarma()-o1.getKarma();
+            }
+        });
     }
 
     private void removeComment(int position) {

@@ -201,7 +201,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         eventInfoComments.setAdapter(new CommentAdapter(mUser,eventInfoCommentEditText,getActivity(),mEvent.getComments()));
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         eventInfoComments.setLayoutManager(layoutManager);
-        eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
+      //  eventInfoComments.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
     }
 
     /*
@@ -401,6 +401,8 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                kickoffUnattendEvent();
                eventInfoTag.setText(mEvent.getDescription());
                eventInfoTag.setBackgroundResource(R.drawable.rounded_border_purple);
+           } else {
+               kickoffAttendEvent();
            }
        } else if (v.getId() == eventInfoLocationLayout.getId()){
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
@@ -420,7 +422,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
             startActivity(intent);
         } else if (v.getId() == eventInfoBackground.getId()){
             if(eventInfoCommentEditText.hasFocus()){
-                eventInfoCommentEditText.requestFocus();
+                eventInfoCommentEditText.clearFocus();
             }
         }
 

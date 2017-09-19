@@ -255,11 +255,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/eventInfoComments"
                         android:orientation="vertical"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:id="@+id/devider1" />
+
                     <com.setgov.android.util.MyEditText
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
