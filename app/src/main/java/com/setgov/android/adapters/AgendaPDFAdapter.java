@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.setgov.android.R;
 import com.setgov.android.models.AgendaPDF;
@@ -68,8 +69,9 @@ public class AgendaPDFAdapter extends RecyclerView.Adapter<AgendaPDFViewHolder> 
 
         if(agenda.getEvent().getId() == 28) {
             mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(agenda.getPdfURL())));
+        } else {
+            Toast.makeText(mContext.getApplicationContext(), "No agenda for this event", Toast.LENGTH_SHORT).show();
         }
-
         /*
         FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
         Fragment currentFragment = AgendaInfoFragment.newInstance(agenda);

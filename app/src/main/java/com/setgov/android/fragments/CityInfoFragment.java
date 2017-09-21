@@ -82,6 +82,66 @@ public class CityInfoFragment extends Fragment {
 
     }
 
+    public void getReps(){
+        mReps.clear();
+        if(mCity.getCityName().equals("Boston")){
+            Office citycouncilOffice = new Office("City Councilor");
+            Office mayorOffice = new Office("Mayor");
+            Representative mayor = new Representative(mayorOffice,"Martin Walsh","Democratic","","");
+            Representative citycouncil1 = new Representative(citycouncilOffice,"Michelle Wu","Democratic","","");
+            Representative citycouncil2 = new Representative(citycouncilOffice,"Michael Flaherty","Democratic","","");
+            Representative citycouncil3 = new Representative(citycouncilOffice,"Annissa Essaibi George","Democratic","","");
+            Representative citycouncil4 = new Representative(citycouncilOffice,"Ayanna Pressley","Democratic","","");
+            Representative citycouncil5 = new Representative(citycouncilOffice,"Salvatore Lamattina","Democratic","","");
+            Representative citycouncil6 = new Representative(citycouncilOffice,"Bill Linehan","Democratic","","");
+            Representative citycouncil7 = new Representative(citycouncilOffice,"Frank Baker","Democratic","","");
+            Representative citycouncil8 = new Representative(citycouncilOffice,"Andrea Campbell","Democratic","","");
+            Representative citycouncil9 = new Representative(citycouncilOffice,"Timothy McCarthy","Democratic","","");
+            Representative citycouncil10 = new Representative(citycouncilOffice,"Matt O'Malley","Democratic","","");
+            Representative citycouncil11 = new Representative(citycouncilOffice,"Tito Jackson","Democratic","","");
+            Representative citycouncil12 = new Representative(citycouncilOffice,"Josh Zakim","Democratic","","");
+            Representative citycouncil13 = new Representative(citycouncilOffice,"Mark Ciommo","Democratic","","");
+            mReps.add(mayor);
+            mReps.add(citycouncil1);
+            mReps.add(citycouncil2);
+            mReps.add(citycouncil3);
+            mReps.add(citycouncil4);
+            mReps.add(citycouncil5);
+            mReps.add(citycouncil6);
+            mReps.add(citycouncil7);
+            mReps.add(citycouncil8);
+            mReps.add(citycouncil9);
+            mReps.add(citycouncil10);
+            mReps.add(citycouncil11);
+            mReps.add(citycouncil12);
+            mReps.add(citycouncil13);
+
+        } else if (mCity.getCityName().equals("Fort Lauderdale")){
+            Office citycommissionerOffice = new Office("City Commissioner");
+            Office mayorOffice = new Office("Mayor");
+            Office viceMayorOffice = new Office("Vice Mayor");
+            Office cityManagerOffice = new Office("City Manager");
+            Office cityClerkOffice = new Office("City Clerk");
+
+            Representative mayor = new Representative(mayorOffice,"Jack Seiler","Democratic","","");
+            Representative viceMayor = new Representative(viceMayorOffice,"Bruce G. Roberts","Republican","","");
+            Representative citycommissioner1 = new Representative(citycommissionerOffice,"Dean Trantalis","Democratic","","");
+            Representative citycommissioner2 = new Representative(citycommissionerOffice,"Robert L. McKinzie","Democratic","","");
+            Representative citycommissioner3 = new Representative(citycommissionerOffice,"Romney Rogers","Democratic","","");
+            Representative citymanager = new Representative(cityManagerOffice,"Lee R. Feldman","Democratic","","");
+            Representative cityclerk = new Representative(cityClerkOffice,"Arleen Gross","Democratic","","");
+            mReps.add(mayor);
+            mReps.add(viceMayor);
+            mReps.add(citycommissioner1);
+            mReps.add(citycommissioner2);
+            mReps.add(citycommissioner3);
+            mReps.add(citymanager);
+            mReps.add(cityclerk);
+        }
+        initRepresentativesView();
+    }
+
+
     public void getRepresentatives(){
         Call<String> elections = mEngine.getRepresentatives(mCity.getCityName()+" "+mCity.getState());
         elections.enqueue(new Callback<String>() {
@@ -197,7 +257,9 @@ public class CityInfoFragment extends Fragment {
         String mDrawableName = mCity.getCityName().toLowerCase().replace(" ","");
         int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
         cityInfoImage.setImageResource(resID);
-        getRepresentatives();
+       // getRepresentatives();
+        mReps = new ArrayList<>();
+        getReps();
         return view;
     }
 

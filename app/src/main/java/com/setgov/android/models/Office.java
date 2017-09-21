@@ -39,6 +39,10 @@ public class Office implements Serializable{
             e.printStackTrace();
         }
     }
+
+    public Office(String name){
+        this.name = name;
+    }
     public String getName(){
         return name;
     }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.setgov.android.R;
 import com.setgov.android.fragments.AgendaInfoFragment;
@@ -72,6 +73,8 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
 
         if(agenda.getEvent().getId() == 28) {
             mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E")));
+        } else {
+            Toast.makeText(mContext.getApplicationContext(), "No agenda for this event", Toast.LENGTH_SHORT).show();
         }
 
         /*
