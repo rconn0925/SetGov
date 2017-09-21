@@ -60,8 +60,8 @@ public class ChangeMyCityFragment extends Fragment implements View.OnClickListen
     public NumberPicker cityPicker;
     private ChangeMyCityFragment thisFrag;
 
-    private String[] allCities = {"Boston","Fort Lauderdale","Phoenix","Miami","San Jose","Austin","New York"};
-
+   // private String[] allCities = {"Boston","Fort Lauderdale","Phoenix","Miami","San Jose","Austin"};
+    private String[] allCities = {"Fort Lauderdale","Boston"};
     private String mHomeCity;
     private Handler handler;
     private Runnable toastSuccess = new Runnable() {

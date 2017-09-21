@@ -63,7 +63,7 @@ public class RepresentativeAdapter extends RecyclerView.Adapter<RepresentativeVi
         holder.repOfficeName.setText(representative.getOffice().getName());
 
         if(representative.getUrl()!=null && representative.getUrl().length()>0){
-            holder.repMoreInfo.setOnClickListener(this);
+         //   holder.repMoreInfo.setOnClickListener(this);
         }
 
     }

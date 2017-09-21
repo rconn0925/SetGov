@@ -2,6 +2,7 @@ package com.setgov.android.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -67,6 +68,11 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         holder.eventAttendees.setAdapter(new UserAdapter(mContext,userList));
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         holder.eventAttendees.setLayoutManager(layoutManager);
+
+        Resources res = mContext.getResources();
+        String mDrawableName = event.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
+        int resID = res.getIdentifier(mDrawableName , "drawable", mContext.getPackageName());
+        holder.eventImage.setImageResource(resID);
 
 
         holder.eventDateTime.setText(event.getDateStr()+" @ "+ event.getTime());

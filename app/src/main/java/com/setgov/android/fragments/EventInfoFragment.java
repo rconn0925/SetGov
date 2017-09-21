@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -243,7 +244,11 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         ButterKnife.inject(this,view);
         mAgendas = new ArrayList<AgendaPDF>();
        // eventInfoImage.setImageResource(mEventImageResID);
-        //eventInfoCircleImage.setImageResource(mEventImageResID);
+        Resources res = getActivity().getResources();
+        String mDrawableName = mEvent.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
+        int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
+        eventInfoImage.setImageResource(resID);
+
         eventInfoLocation.setText(mEventAddress);
         eventInfoDateTime.setText(mEventDate+ " @ "+ mEvent.getTime());
         eventInfoTag.setText(mEvent.getDescription());
@@ -251,9 +256,9 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
             if(mUser.getID()==mEvent.getAttendees().get(i).getID()){
                 eventInfoTag.setText(R.string.attending);
                 eventInfoTag.setBackgroundResource(R.drawable.rounded_border_green);
+                eventInfoAttendButton.setVisibility(View.GONE);
             }
         }
-
         eventInfoName.setText(mEvent.getName());
         String numGoing = mEvent.getAttendees().size()+" going";
         eventInfoNumberGoing.setText(numGoing);

@@ -11,10 +11,10 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:adjustViewBounds="true"
-            android:id="@+id/eventImage"
-            android:src="@drawable/firestation"/>
+            android:scaleType="centerCrop"
+            android:id="@+id/eventImage" />
 
         <TextView
             android:layout_width="107dp"
@@ -41,7 +41,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="91dp"
+        android:layout_height="70dp"
         android:orientation="vertical"
         android:padding="8dp"
         android:layout_margin="8dp"
@@ -52,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:id="@+id/eventTimeLayout">
 

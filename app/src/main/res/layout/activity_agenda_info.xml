@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/agendaEventImage"
                 android:adjustViewBounds="true"
-                android:src="@drawable/firestation"
+                android:src="@drawable/bostoncityhall"
                 android:alpha=".75"/>
 
             <LinearLayout

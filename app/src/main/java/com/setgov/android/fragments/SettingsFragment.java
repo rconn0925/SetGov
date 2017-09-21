@@ -136,7 +136,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         if(v.getId() == logoutButton.getId()){
             LoginManager.getInstance().logOut();
             Intent i = new Intent(getActivity(), LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            prefs.edit().clear().apply();
+            getActivity().finish();
             startActivity(i);
         } else if (v.getId() == changeCityTextView.getId()) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

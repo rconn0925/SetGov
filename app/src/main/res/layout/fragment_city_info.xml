@@ -80,8 +80,9 @@
             android:id="@+id/cityInfoElection"
             android:textSize="16sp"
             android:textColor="@color/colorNavyBlue"
-            android:text="@string/election"
+            android:text="Election features coming soon"
             android:layout_below="@+id/cityInfoGovList"
+            android:padding="16dp"
             android:layout_centerHorizontal="true"/>
 
 

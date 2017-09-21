@@ -68,20 +68,20 @@ public class CitiesFragment extends Fragment {
 
         mUser = (User)getArguments().getSerializable("User");
         mCities = new ArrayList<>();
-
-        City boston = new City("Boston","Massachusetts","Suffolk","MA");
         City fortlauderdale = new City("Fort Lauderdale","Florida","Broward","FL");
-        City newyork = new City("New York","New York","New York","NY");
-        City austin = new City("Austin","Texas","Travis","TX");
+        City boston = new City("Boston","Massachusetts","Suffolk","MA");
+       // City newyork = new City("New York","New York","New York","NY");
         City phoenix = new City("Phoenix","Arizona","Maricopa","AZ");
         City miami = new City("Miami","Florida","Miami-Dade","FL");
+        City austin = new City("Austin","Texas","Travis","TX");
+        City sanjose = new City("San Jose","California","Santa Carla","CA");
 
-        mCities.add(boston);
         mCities.add(fortlauderdale);
-        mCities.add(newyork);
+        mCities.add(boston);
         mCities.add(phoenix);
-        mCities.add(austin);
         mCities.add(miami);
+        mCities.add(sanjose);
+        mCities.add(austin);
 
     }
 

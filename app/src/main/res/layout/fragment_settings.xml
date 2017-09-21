@@ -25,7 +25,7 @@
         android:layout_height="100dp"
         android:id="@+id/settingProfileImage"
         app:civ_border_width="4dp"
-        android:src="@drawable/firestation"
+        android:src="@drawable/bostoncityhall"
         app:civ_border_color="@color/colorWhite"
         android:layout_centerHorizontal="true"/>
     <TextView

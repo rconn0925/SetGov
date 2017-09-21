@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.setgov.android.R;
 import com.setgov.android.SimpleDividerItemDecoration;
@@ -45,11 +46,13 @@ public class CityEventsFragment extends Fragment {
     public RecyclerView eventView;
 
     private OnFragmentInteractionListener mListener;
-    private City mCity;
+   // private City mCity;
+    private String cityString;
     private ArrayList<Event> mEvents;
     private GridLayoutManager mEventLayoutManager;
     private EventAdapter mEventAdapter;
     private User mUser;
+    private SharedPreferences prefs;
 
     public CityEventsFragment() {
         // Required empty public constructor
@@ -69,7 +72,7 @@ public class CityEventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mCity = (City)getArguments().getSerializable(ARG_PARAM1);
+           // mCity = (City)getArguments().getSerializable(ARG_PARAM1);
             mUser = (User)getArguments().getSerializable("User");
         }
         mEvents= new ArrayList<Event>();
@@ -81,7 +84,11 @@ public class CityEventsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.activity_city, container, false);
         ButterKnife.inject(this,view);
-        getEvents(mCity.getCityName());
+        TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
+        prefs = getActivity().getApplicationContext().getSharedPreferences("auth", Context.MODE_PRIVATE);
+        cityString = prefs.getString("userHomeCity","");
+        toolbarTitle.setText(cityString);
+        getEvents(cityString);
         return view;
     }
 

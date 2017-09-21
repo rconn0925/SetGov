@@ -44,10 +44,10 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:adjustViewBounds="true"
                         android:id="@+id/eventInfoImage"
-                        android:src="@drawable/firestation"/>
+                        android:scaleType="centerCrop"/>
 
                     <FrameLayout
                         android:layout_width="match_parent"

@@ -22,8 +22,8 @@ public class RepresentativeViewHolder extends RecyclerView.ViewHolder {
     public TextView repName;
     @InjectView(R.id.repOfficeName)
     public TextView repOfficeName;
-    @InjectView(R.id.repMoreInfo)
-    public ImageView repMoreInfo;
+    //@InjectView(R.id.repMoreInfo)
+    //public ImageView repMoreInfo;
 
     public RepresentativeViewHolder(View itemView) {
         super(itemView);

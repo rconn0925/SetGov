@@ -103,9 +103,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         } else {
             holder.commentDeleteButton.setVisibility(View.GONE);
         }
+        holder.setKarma(comment.getKarma());
         for(int i = 0; i < comment.getVotes().size();i++){
             if(comment.getVotes().get(i).getUser() == mUser.getID()){
                 holder.setKarma(comment.getVotes().get(i).getVoteValue());
+                int voteValue = comment.getVotes().get(i).getVoteValue();
+                if(voteValue==1){
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_green_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
+                } else if (voteValue == -1) {
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_red_24dp);
+                } else if (voteValue ==0){
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
+                }
             }
        }
         holder.commentTimePosted.setText(formatCommentDate(comment.getTimestamp()));
@@ -124,16 +136,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                     num++;
                     num++;
                     holder.commentVoteScore.setText(""+num);
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_green_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
                 } else if (holder.karma == 0) {
                     kickoffVoteOnComment(comment,1);
                     holder.setKarma(1);
                     num++;
                     holder.commentVoteScore.setText(""+num);
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_green_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
                 } else if (holder.karma == 1){
                     kickoffVoteOnComment(comment,0);
                     holder.setKarma(0);
                     num--;
                     holder.commentVoteScore.setText(""+num);
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
                 }
                 //update karma textview
             }
@@ -150,16 +168,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                     num--;
                     num--;
                     holder.commentVoteScore.setText(""+num);
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_red_24dp);
                 } else if (holder.karma  == 0) {
                     kickoffVoteOnComment(comment,-1);
                     holder.setKarma(-1);
                     num--;
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_red_24dp);
                     holder.commentVoteScore.setText(""+num);
                 } else if(holder.karma  == -1){
                     kickoffVoteOnComment(comment,0);
                     holder.setKarma(0);
                     num++;
                     holder.commentVoteScore.setText(""+num);
+                    holder.commentUpvote.setImageResource(R.drawable.ic_arrow_upward_black_24dp);
+                    holder.commentDownvote.setImageResource(R.drawable.ic_arrow_downward_black_24dp);
                 }
             }
         });

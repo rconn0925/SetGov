@@ -41,7 +41,9 @@ public class Event implements Serializable{
         comments = new ArrayList<>();
         try {
             if(json.has("id")) id =  json.getInt("id");
-            if (json.has("name")) name =  json.getString("name");
+            if (json.has("name")){
+                name =  json.getString("name").trim();
+            }
             if (json.has("city")) cityStr =  json.getString("city");
             if(cityStr.equals("Boston")){
                 city = new City("Boston","Massachusetts","Suffolk","MA");
