@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements
                 settingsButton.setTag("back");
                 fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack("Settings").replace(R.id.contentFrame, currentFragment).commit();
             } else if (settingsButton.getTag().toString().equals("back")){
-                Log.d(TAG,"settings button pressed3");
+                Log.d(TAG,"settings button pressed");
                 settingsButton.setImageResource(R.drawable.account_circle_white_192x192);
                 settingsButton.setTag("settings");
                 if (fragmentManager.getBackStackEntryCount() > 0) {

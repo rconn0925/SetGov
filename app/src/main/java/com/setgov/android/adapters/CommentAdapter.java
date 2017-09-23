@@ -66,7 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     final Runnable updateUI = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG, "updateUI");
+
                 addRepliesToComment(commentReplyFrame);
         }
     };
@@ -289,15 +289,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         long currentTime = System.currentTimeMillis();
         long commentTime =mTimestamp.getTime();
         long twentyFourHours = 86400000;
-        Log.d(TAG, "currentTime"+currentTime);
-        Log.d(TAG, "commentTime"+commentTime);
+       // Log.d(TAG, "currentTime"+currentTime);
+        //Log.d(TAG, "commentTime"+commentTime);
         Log.d(TAG, "formatted timestamp: "+ formattedTimestamp);
-
-        if(commentTime-currentTime<=twentyFourHours){
-            Log.d(TAG, "within 24 hours");
-            //minus 4 hours cause timezone change?
-            long numMillisAgo = Math.abs(commentTime-currentTime-4*3600000);
-
+        long numMillisAgo =Math.abs(commentTime-currentTime);
+        if(numMillisAgo<=twentyFourHours){
+          //  Log.d(TAG, "within 24 hours");
+            //minus 4 hours cause timezone change?//Math.abs(commentTime-currentTime-4*3600000);
             //less than an hour
             if(numMillisAgo<3600000){
                 long minutes = (numMillisAgo/60000);

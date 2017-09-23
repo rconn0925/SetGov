@@ -34,7 +34,7 @@ public class BostonEventScraper extends AsyncTask<String,Void,ArrayList<Event>>{
             for(int numPages = 0;numPages<5;numPages++){
                 Document doc = null;
                 try {
-                    String url = "https://www.boston.gov/public-notices?title=&&page=" + numPages;
+                    String url = "https://www.bostonother.gov/public-notices?title=&&page=" + numPages;
                     doc = Jsoup.connect(url).get();
                     //       Log.d("MAINactivity", doc.toString());
                 } catch (IOException e) {

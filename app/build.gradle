@@ -7,7 +7,7 @@ android {
         applicationId "com.setgov.android"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 1
+        versionCode 3
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

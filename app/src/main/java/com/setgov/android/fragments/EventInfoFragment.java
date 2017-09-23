@@ -331,6 +331,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                                   ("auth", Context.MODE_PRIVATE);
                           SharedPreferences.Editor editor = sp.edit();
                           editor.putBoolean("isReply",false);
+                          editor.putInt("replyTo",-1);
                           editor.apply();
                       }
                   }

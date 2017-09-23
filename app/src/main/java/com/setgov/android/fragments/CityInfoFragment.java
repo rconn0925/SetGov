@@ -1,6 +1,7 @@
 package com.setgov.android.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,9 +57,11 @@ public class CityInfoFragment extends Fragment {
     public RecyclerView cityInfoGovList;
     private OnFragmentInteractionListener mListener;
     private City mCity;
+    private String homecityStr;
     private GoogleCivicApiEngine mEngine;
     private ArrayList<Representative> mReps;
     private RepresentativeAdapter mAdapter;
+    private SharedPreferences sp;
 
     public CityInfoFragment() {
         // Required empty public constructor
@@ -76,7 +79,8 @@ public class CityInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mCity = (City)getArguments().getSerializable(ARG_PARAM1);
+         //   mCity = (City)getArguments().getSerializable(ARG_PARAM1);
+           //// City city = city.getCity(String );
         }
          mEngine = new GoogleCivicApiEngine();
 
@@ -119,7 +123,7 @@ public class CityInfoFragment extends Fragment {
         } else if (mCity.getCityName().equals("Fort Lauderdale")){
             Office citycommissionerOffice = new Office("City Commissioner");
             Office mayorOffice = new Office("Mayor");
-            Office viceMayorOffice = new Office("Vice Mayor");
+            Office viceMayorOffice = new Office("Vice Mayor/City Commissioner");
             Office cityManagerOffice = new Office("City Manager");
             Office cityClerkOffice = new Office("City Clerk");
 
@@ -131,12 +135,12 @@ public class CityInfoFragment extends Fragment {
             Representative citymanager = new Representative(cityManagerOffice,"Lee R. Feldman","Democratic","","");
             Representative cityclerk = new Representative(cityClerkOffice,"Arleen Gross","Democratic","","");
             mReps.add(mayor);
+            mReps.add(citymanager);
             mReps.add(viceMayor);
             mReps.add(citycommissioner1);
             mReps.add(citycommissioner2);
             mReps.add(citycommissioner3);
-            mReps.add(citymanager);
-            mReps.add(cityclerk);
+          //  mReps.add(cityclerk);
         }
         initRepresentativesView();
     }
@@ -249,6 +253,9 @@ public class CityInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_city_info, container, false);
         ButterKnife.inject(this,view);
+        sp = getActivity().getApplicationContext().getSharedPreferences
+                ("auth", Context.MODE_PRIVATE);
+        mCity = new City(sp.getString("userHomeCity",""));
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(R.string.my_city);
         cityName.setText(mCity.getCityName());

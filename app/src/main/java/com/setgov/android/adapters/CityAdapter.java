@@ -115,8 +115,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
             Fragment currentFragment = CityFragment.newInstance(mUser,city);
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack(TAG).replace(R.id.contentFrame, currentFragment).commit();
         } else {
-            Toast.makeText(mContext.getApplicationContext(), "No events for "+ city.toString()+".",
-                    Toast.LENGTH_SHORT).show();
+       //     Toast.makeText(mContext.getApplicationContext(), "No events for "+ city.toString()+".",
+        //            Toast.LENGTH_SHORT).show();
         }
 
     }

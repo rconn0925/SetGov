@@ -70,9 +70,19 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         holder.eventAttendees.setLayoutManager(layoutManager);
 
         Resources res = mContext.getResources();
-        String mDrawableName = event.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
-        int resID = res.getIdentifier(mDrawableName , "drawable", mContext.getPackageName());
-        holder.eventImage.setImageResource(resID);
+        if(event.getCity().getCityName().equals("Boston")){
+            if(event.getAddress().contains("1 City Hall")){
+                holder.eventImage.setImageResource(R.drawable.bostoncityhall);
+            }else {
+                holder.eventImage.setImageResource(R.drawable.bostonother);
+            }
+        }
+        else {
+            String mDrawableName = event.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
+            int resID = res.getIdentifier(mDrawableName , "drawable", mContext.getPackageName());
+            holder.eventImage.setImageResource(resID);
+        }
+
 
 
         holder.eventDateTime.setText(event.getDateStr()+" @ "+ event.getTime());

@@ -18,7 +18,18 @@
             android:src="@drawable/ic_picture_as_pdf_black_24dp"
             android:adjustViewBounds="true"
             android:layout_centerHorizontal="true"
-            android:padding="4dp"/>
+            android:padding="4dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/agenda_available_soon"
+            android:id="@+id/agendaAvailableSoonText"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
     </RelativeLayout>
 
