@@ -113,6 +113,8 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     public LinearLayout eventInfoLocationLayout;
     @InjectView(R.id.eventInfoBackground)
     public LinearLayout eventInfoBackground;
+    @InjectView(R.id.eventInfoImageBackground)
+    public RelativeLayout eventInfoImageBackground;
 
     private LinearLayoutManager mLayoutManager;
     private AgendaPDFAdapter mAgendaAdapter;
@@ -245,9 +247,24 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
         mAgendas = new ArrayList<AgendaPDF>();
        // eventInfoImage.setImageResource(mEventImageResID);
         Resources res = getActivity().getResources();
-        String mDrawableName = mEvent.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
-        int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
-        eventInfoImage.setImageResource(resID);
+       // String mDrawableName = mEvent.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
+        //int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
+
+
+
+        if(mEvent.getCity().getCityName().equals("Boston")){
+            if(mEvent.getAddress().contains("1 City Hall")){
+                eventInfoImage.setImageResource(R.drawable.bostoncityhall);
+                eventInfoImageBackground.setBackgroundResource(R.color.light_black_overlay);
+            }else {
+                eventInfoImage.setImageResource(R.drawable.bostonother);
+            }
+        }
+        else {
+            String mDrawableName = mEvent.getCity().getCityName().toLowerCase().replace(" ","")+"cityhall";
+            int resID = res.getIdentifier(mDrawableName , "drawable", getActivity().getPackageName());
+            eventInfoImage.setImageResource(resID);
+        }
 
         eventInfoLocation.setText(mEventAddress);
         eventInfoDateTime.setText(mEventDate+ " @ "+ mEvent.getTime());

@@ -83,6 +83,7 @@ public class CityFragment extends Fragment implements View.OnClickListener{
         MyCityButton.setOnClickListener(this);
         EventsButton.setOnClickListener(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        toolbarImage.setTag("settings");
 
         setFragment(CityEventsFragment.newInstance(mUser,mCity));
         return view;

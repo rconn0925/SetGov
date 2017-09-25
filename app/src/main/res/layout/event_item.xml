@@ -14,7 +14,13 @@
             android:layout_height="180dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:id="@+id/eventImage" />
+                android:id="@+id/eventImage" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:id="@+id/eventImageBackground">
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="107dp"
@@ -36,7 +42,11 @@
             android:textSize="18sp"
             android:textColor="@color/colorWhite"
             android:padding="8dp"
-            android:layout_alignBottom="@id/eventImage" />
+            android:layout_alignBottom="@id/eventImage"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"/>
     </RelativeLayout>
 
     <LinearLayout

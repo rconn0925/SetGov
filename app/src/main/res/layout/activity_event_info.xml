@@ -49,6 +49,13 @@
                         android:id="@+id/eventInfoImage"
                         android:scaleType="centerCrop"/>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:id="@+id/eventInfoImageBackground">
+
+                    </RelativeLayout>
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -79,7 +86,11 @@
                         android:textSize="18sp"
                         android:textColor="@color/colorWhite"
                         android:padding="8dp"
-                        android:layout_alignBottom="@id/eventInfoImage" />
+                        android:layout_alignBottom="@id/eventInfoImage"
+                        android:shadowColor="#000000"
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1"/>
                 </RelativeLayout>
 
                 <LinearLayout

@@ -73,6 +73,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
         if(event.getCity().getCityName().equals("Boston")){
             if(event.getAddress().contains("1 City Hall")){
                 holder.eventImage.setImageResource(R.drawable.bostoncityhall);
+                holder.eventImageBackground.setBackgroundResource(R.color.light_black_overlay);
             }else {
                 holder.eventImage.setImageResource(R.drawable.bostonother);
             }

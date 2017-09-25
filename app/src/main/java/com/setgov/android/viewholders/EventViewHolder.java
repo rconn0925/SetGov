@@ -3,6 +3,7 @@ package com.setgov.android.viewholders;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.setgov.android.R;
@@ -27,6 +28,8 @@ public class EventViewHolder  extends RecyclerView.ViewHolder {
     public TextView eventTag;
     @InjectView(R.id.eventAttendees)
     public RecyclerView eventAttendees;
+    @InjectView(R.id.eventImageBackground)
+    public RelativeLayout eventImageBackground;
 
     public EventViewHolder(View itemView) {
         super(itemView);
