@@ -2,6 +2,7 @@ package com.setgov.android.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.setgov.android.fragments.CityInfoFragment;
 import com.setgov.android.fragments.EventInfoFragment;
 import com.setgov.android.fragments.RSVPFragment;
 import com.setgov.android.fragments.SettingsFragment;
+import com.setgov.android.fragments.WhereToVoteFragment;
 import com.setgov.android.models.Event;
 import com.setgov.android.models.User;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements
         CityInfoFragment.OnFragmentInteractionListener,
         RSVPFragment.OnFragmentInteractionListener,
         ChangeMyCityFragment.OnFragmentInteractionListener,
+        //WhereToVoteFragment.OnFragmentInteractionListener,
         View.OnClickListener{
 
     private static final String TAG = "MainActivity";
@@ -129,20 +132,25 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onDestroy(){
+        super.onDestroy();
+        settingsButton.setImageDrawable(null);
+    }
+
+    @Override
     public void onClick(View v) {
         if(v.getId()==settingsButton.getId()){
             Log.d(TAG,"settings button pressed");
             FragmentManager fragmentManager = getSupportFragmentManager();
-
-            if(settingsButton.getTag().toString().equals("settings")){
+            if(settingsButton.getTag().toString().equals(getString(R.string.settings))){
                 Fragment currentFragment = SettingsFragment.newInstance();
                 settingsButton.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-                settingsButton.setTag("back");
+                settingsButton.setTag(getString(R.string.back));
                 fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_left,R.anim.enter_from_left,R.anim.exit_to_right).addToBackStack("Settings").replace(R.id.contentFrame, currentFragment).commit();
-            } else if (settingsButton.getTag().toString().equals("back")){
-                Log.d(TAG,"settings button pressed");
-                settingsButton.setImageResource(R.drawable.account_circle_white_192x192);
-                settingsButton.setTag("settings");
+            } else if (settingsButton.getTag().toString().equals(getString(R.string.back))){
+                int drawableResourceId = this.getResources().getIdentifier("account_circle_white_48x48", "drawable-nodpi", this.getPackageName());
+                settingsButton.setImageResource(drawableResourceId);
+                settingsButton.setTag(getString(R.string.settings));
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     fragmentManager.popBackStack();
                 } else {

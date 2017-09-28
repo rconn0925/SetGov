@@ -259,7 +259,6 @@ public class ChangeMyCityFragment extends Fragment implements View.OnClickListen
                     //recall OnCreateView in settings to update homecity textview
                     Fragment fragment = fragmentManager.findFragmentById(R.id.contentFrame);
                     if(fragment != null){
-                        Log.d(TAG,"is this null???");
                         FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
                         fragTransaction.detach(fragment);
                         fragTransaction.attach(fragment);

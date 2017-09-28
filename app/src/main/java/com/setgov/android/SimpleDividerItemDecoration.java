@@ -3,6 +3,7 @@ package com.setgov.android;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -17,9 +18,17 @@ public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     public SimpleDividerItemDecoration(Context context,boolean color) {
         if(color){
-            mDivider = context.getResources().getDrawable(R.drawable.line_devider_color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mDivider = context.getResources().getDrawable(R.drawable.line_devider_color,context.getTheme());
+            } else {
+                mDivider = context.getResources().getDrawable(R.drawable.line_devider_color);
+            }
         } else {
-            mDivider = context.getResources().getDrawable(R.drawable.line_divider);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mDivider = context.getResources().getDrawable(R.drawable.line_divider,context.getTheme());
+            } else {
+                mDivider = context.getResources().getDrawable(R.drawable.line_divider);
+            }
         }
     }
 
