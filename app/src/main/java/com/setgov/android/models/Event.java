@@ -90,6 +90,9 @@ public class Event implements Serializable{
                     month = "Invalid month";
                 }
                 day = dateParts[1];
+                if(day.startsWith("0")){
+                    day = day.substring(1);
+                }
                 int dayInt = Integer.parseInt(day);
                 year = "20"+dateParts[2];
                 dateStr = month + " " + day + ", "+ year;

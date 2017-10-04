@@ -70,7 +70,7 @@ public class AgendaPDFAdapter extends RecyclerView.Adapter<AgendaPDFViewHolder> 
         if(agenda.getEvent().getId() == 28) {
             mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(agenda.getPdfURL())));
         } else {
-            Toast.makeText(mContext.getApplicationContext(), "No agenda for this event", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.getApplicationContext(), "Agenda not yet available", Toast.LENGTH_SHORT).show();
         }
         /*
         FragmentManager fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
