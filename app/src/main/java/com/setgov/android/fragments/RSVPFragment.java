@@ -115,10 +115,16 @@ public class RSVPFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId()==rsvpAddCalendarButton.getId()){
 
-                Intent intent = new Intent(Intent.ACTION_INSERT)
+              //  Log.d(TAG,"Event datestr: " + mEvent.getDateTimeStamp().getTime());
+              //  Log.d(TAG,"current datestr: " + Calendar.getInstance().getTime().getTime());
+                long startTime = mEvent.getDateTimeStamp().getTime();
+                long endTime = startTime + 3600000;
+
+
+            Intent intent = new Intent(Intent.ACTION_INSERT)
                         .setData(CalendarContract.Events.CONTENT_URI)
-                //        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                 //       .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime)
                         .putExtra(CalendarContract.Events.TITLE, mEvent.getName())
                         .putExtra(CalendarContract.Events.DESCRIPTION, mEvent.getDescription())
                         .putExtra(CalendarContract.Events.EVENT_LOCATION, mEvent.getAddress())

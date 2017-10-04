@@ -74,7 +74,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaViewHolder> implem
         if(agenda.getEvent().getId() == 28) {
             mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://fortlauderdale.legistar.com/View.ashx?M=A&ID=542490&GUID=2D769EE5-7983-4869-A3F4-E5D31967452E")));
         } else {
-            Toast.makeText(mContext.getApplicationContext(), "No agenda for this event", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.getApplicationContext(), "Agenda not yet available", Toast.LENGTH_SHORT).show();
         }
 
         /*

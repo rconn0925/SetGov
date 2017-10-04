@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,9 @@ public class Event implements Serializable{
     private String cityStr;
     private String dateStr;
     private String time;
+    private String time24hours;
     private String description;
+    private String dateTimeStamp;
 
 
     public Event(JSONObject json){
@@ -63,6 +66,7 @@ public class Event implements Serializable{
             if (json.has("address")) address =  json.getString("address");
             if (json.has("date")){
                 dateStr =  json.getString("date");
+                dateTimeStamp = dateStr;
                 String day,month,year;
                 String[] dateParts = dateStr.split("/");
                 month = dateParts[0];
@@ -86,8 +90,21 @@ public class Event implements Serializable{
                     month = "Invalid month";
                 }
                 day = dateParts[1];
+                int dayInt = Integer.parseInt(day);
                 year = "20"+dateParts[2];
                 dateStr = month + " " + day + ", "+ year;
+                String monthNumStr,dayNumStr="";
+                if(monthInt<10){
+                    monthNumStr = "0" + monthInt;
+                } else{
+                    monthNumStr = "" + monthInt;
+                }
+                if(dayInt<10){
+                    dayNumStr = "0" + dayInt;
+                } else{
+                    dayNumStr = "" + dayInt;
+                }
+                dateTimeStamp = year + "-" + monthNumStr + "-" + dayNumStr;
             }
             if (json.has("time")){
                 time =  json.getString("time");
@@ -96,7 +113,19 @@ public class Event implements Serializable{
                 }
                 if(time != null &&time.length()>0){
                     time = time.substring(0,time.length()-3);
-                    time+="PM";
+                    String [] timeSplit = time.split(":");
+                    int firstNum = Integer.parseInt(timeSplit[0]);
+                    if(firstNum == 12){
+                        time24hours = time+":00";
+                        time+="PM";
+                    } else if(firstNum>=9){
+                        time24hours = time+":00";;
+                        time+="AM";
+                    } else {
+                        int hour = firstNum +12;
+                        time24hours = hour + ":"+ timeSplit[1]+":00";
+                        time+="PM";
+                    }
                 }
             }
             if (json.has("description")) description =  json.getString("description");
@@ -172,5 +201,7 @@ public class Event implements Serializable{
     }
     public String getDescription() {return description;}
     public String getTime() {return time;}
+    public Timestamp getDateTimeStamp(){return Timestamp.valueOf(dateTimeStamp + " " + time24hours);}
+    public String getTime24hours(){return time24hours;}
 
 }
