@@ -84,6 +84,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
     private ArrayList<User> mEventAttendees;
     private ArrayList<AgendaPDF> mAgendas;
     private Event mEvent;
+    private Context mContext;
     
     @InjectView(R.id.eventInfoLocation)
     public TextView eventInfoLocation;
@@ -164,8 +165,9 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
          //   mEventImageResID = mEvent.getImageResID();
           //  mEventAttendees = mEvent.getAttendees();
             handler = new Handler();
+            mContext = getActivity().getApplicationContext();
 
-            SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
+            SharedPreferences sp = mContext.getSharedPreferences
                     ("auth", Context.MODE_PRIVATE);
             String userJson = sp.getString("loggedInUserJson", "");
 
@@ -285,7 +287,19 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
        // eventInfoAttendButton.setOnClickListener(this);
         TextView toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(R.string.event_details);
-        eventInfoTag.setOnClickListener(this);
+        eventInfoTag.setOnClickListener(new DebouncedOnClickListener(1000) {
+            @Override
+            public void onDebouncedClick(View v) {
+                if(eventInfoTag.getText().toString().equals("ATTENDING"))
+                {
+                    kickoffUnattendEvent();
+                    eventInfoTag.setText(mEvent.getDescription());
+                    eventInfoTag.setBackgroundResource(R.drawable.rounded_border_purple);
+                } else {
+                    kickoffAttendEvent();
+                }
+            }
+        });
         eventInfoLocationLayout.setOnClickListener(this);
         eventInfoTimeLayout.setOnClickListener(this);
         eventInfoBackground.setOnClickListener(this);
@@ -418,16 +432,7 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
            eventInfoTag.setBackgroundResource(R.drawable.rounded_border_green);
         }
         */
-        if (v.getId() == eventInfoTag.getId()){
-           if(eventInfoTag.getText().toString().equals("ATTENDING"))
-           {
-               kickoffUnattendEvent();
-               eventInfoTag.setText(mEvent.getDescription());
-               eventInfoTag.setBackgroundResource(R.drawable.rounded_border_purple);
-           } else {
-               kickoffAttendEvent();
-           }
-       } else if (v.getId() == eventInfoLocationLayout.getId()){
+        if (v.getId() == eventInfoLocationLayout.getId()){
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                     Uri.parse("google.navigation:q="+mEvent.getAddress()+"+"+mEvent.getCity().getCityName()));
             startActivity(intent);
@@ -600,12 +605,15 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                     Log.d(TAG, jsonResponse.toString());
                     mUser = new User(userLoginJSON);
 
-                    SharedPreferences sp = getActivity().getApplicationContext().getSharedPreferences
-                            ("auth", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("loggedInUserJson", mUser.getUserJsonStr());
-                    editor.putBoolean("isLoggedIn",true);
-                    editor.apply();
+
+                    if(isAdded()){
+                        SharedPreferences sp = mContext.getSharedPreferences
+                                ("auth", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("loggedInUserJson", mUser.getUserJsonStr());
+                        editor.putBoolean("isLoggedIn",true);
+                        editor.apply();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -637,10 +645,12 @@ public class EventInfoFragment extends Fragment implements View.OnClickListener 
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     JSONObject data = jsonResponse.getJSONObject("data");
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(city+"Events",data.toString());
-                    editor.apply();
+                    if(isAdded()){
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(city+"Events",data.toString());
+                        editor.apply();
+                    }
 
                     JSONArray eventsJsonArray = data.getJSONArray("upcomingEvents");
                     for(int i = 0; i < eventsJsonArray.length();i++) {
