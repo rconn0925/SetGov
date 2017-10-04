@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity{
     // UI references.
     @InjectView(R.id.login_button)
     public LoginButton loginButton;
+    @InjectView(R.id.loginProgress)
+    public ProgressBar loginProgress;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
@@ -62,6 +66,8 @@ public class LoginActivity extends AppCompatActivity{
     final Runnable initiateSetGovLogin = new Runnable() {
         @Override
         public void run() {
+            loginButton.setVisibility(View.GONE);
+            loginProgress.setVisibility(View.VISIBLE);
             kickOffSetGovLoginApiRequest();
         }
     };
@@ -156,6 +162,8 @@ public class LoginActivity extends AppCompatActivity{
                         Log.d(TAG, "ApiPostRequestTask: onFailure: "+ e.toString());
                         activeApiCall = null;
                         e.printStackTrace();
+                        loginButton.setVisibility(View.VISIBLE);
+                        loginProgress.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
