@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -109,12 +111,23 @@ public class CityEventsFragment extends Fragment {
             } catch (JSONException e){
             }
         }
+        sortEvents();
         mEventLayoutManager = new GridLayoutManager(getActivity(), 1);
         eventView.setLayoutManager(mEventLayoutManager);
         eventView.addItemDecoration(new SimpleDividerItemDecoration(getActivity(),false));
         mEventAdapter = new EventAdapter(eventView,getActivity(), mEvents);
         eventView.setAdapter(mEventAdapter);
     }
+
+    private void sortEvents() {
+        Collections.sort(mEvents,new Comparator<Event>() {
+            @Override
+            public int compare(Event o1, Event o2) {
+                return o1.getDateTimeStamp().compareTo(o2.getDateTimeStamp());
+            }
+        });
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

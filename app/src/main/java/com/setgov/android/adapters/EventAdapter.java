@@ -75,6 +75,7 @@ public class EventAdapter  extends RecyclerView.Adapter<EventViewHolder> impleme
                 holder.eventImage.setImageResource(R.drawable.bostoncityhall);
                 holder.eventImageBackground.setBackgroundResource(R.color.light_black_overlay);
             }else {
+                holder.eventImageBackground.setBackgroundResource(0);
                 holder.eventImage.setImageResource(R.drawable.bostonother);
             }
         }
